@@ -1,7 +1,12 @@
 import Page from "@/components/Page";
+import DateSelector from "../../_components/DateSelector";
 
 const TodayTodosPage = () => {
-  return <Page title="투두 페이지">todo page</Page>;
+  return (
+    <Page title="TODAY">
+      <DateSelector />
+    </Page>
+  );
 };
 
 export default TodayTodosPage;
