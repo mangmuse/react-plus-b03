@@ -8,7 +8,7 @@ type DateSelectorProps = {
 
 const DateSelector = ({ onPrev, onNext }: DateSelectorProps) => {
   return (
-    <div className="flex justify-center gap-x-4 text-xs py-10 font-semibold">
+    <div className="flex justify-center gap-x-6 text-xs pt-6 pb-12 font-semibold">
       <button onClick={onPrev}>
         <Image
           src="/ic-arrow-left.png"
