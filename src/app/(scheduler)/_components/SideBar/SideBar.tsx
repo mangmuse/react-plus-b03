@@ -14,7 +14,7 @@ const SideBar = () => {
             <ul className="mt-4">
               <li className="flex items-center mb-4">
                 <Image
-                  src="/icons/TODAY.png"
+                  src="/icons/sidebar/ic-today.png"
                   alt="today 아이콘"
                   width={15}
                   height={15}
@@ -28,7 +28,7 @@ const SideBar = () => {
               </li>
               <li className="flex items-center">
                 <Image
-                  src="/icons/IMPORTANT.png"
+                  src="/icons/sidebar/ic-important.png"
                   alt="important icon"
                   width={15}
                   height={15}
@@ -44,7 +44,7 @@ const SideBar = () => {
             <ul className="mt-4">
               <li className="flex items-center mb-2">
                 <Image
-                  src="/icons/calendar-check.png"
+                  src="/icons/sidebar/ic-calendar-check.png"
                   alt="일정보기 icon"
                   width={17}
                   height={17}
@@ -55,7 +55,7 @@ const SideBar = () => {
               </li>
               <li className="flex items-center mb-2">
                 <Image
-                  src="/icons/calendar-check.png"
+                  src="/icons/sidebar/ic-calendar-check.png"
                   alt="일정보기 icon"
                   width={17}
                   height={17}
