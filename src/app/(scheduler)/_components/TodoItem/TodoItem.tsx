@@ -5,10 +5,15 @@ import { todos } from "../ShareTodoList/ShareTodoList";
 
 interface propItem {
   item: todos;
+  classname?: string;
 }
-const TodoItem = ({ item }: propItem) => {
+const TodoItem = ({ item, classname }: propItem) => {
   return (
-    <div className="relative p-5 border-2 rounded-xl bg-white border-zinc-900/[0.06]">
+    <div
+      className={`relative p-5 rounded-xl bg-white ${
+        classname ? classname : "border-zinc-900/[0.06] border-2"
+      }`}
+    >
       <div className="flex flex-col">
         <div className="text-xs font-medium text-zinc-900/[0.5]">
           {item.user}
@@ -51,5 +56,4 @@ const TodoItem = ({ item }: propItem) => {
     </div>
   );
 };
-
 export default TodoItem;

@@ -2,7 +2,7 @@ import React from "react";
 
 const ContentInput = () => {
   return (
-    <div className="flex items-center relative mt-10 w-full h-[100px] rounded-xl border-2 border-[rgb(28, 29, 34, 0.06)]">
+    <div className="flex items-center relative mt-2 w-full h-[100px] rounded-xl border-2 border-[rgb(28, 29, 34, 0.06)]">
       <input
         type="text"
         placeholder="댓글을 남겨보세요"
