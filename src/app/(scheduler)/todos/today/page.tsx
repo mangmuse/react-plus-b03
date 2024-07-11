@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import Page from "@/components/Page";
 import { useModal } from "@/services/modal/modal.context";
-import DateSelector from "../../_components/DateSelector";
+import TodoDate from "../../_components/TodoDate/TodoDate";
 import TodoList from "../../_components/TodoList";
 
 const TodayTodosPage = () => {
@@ -15,7 +15,7 @@ const TodayTodosPage = () => {
 
   return (
     <Page title="TODAY">
-      <DateSelector />
+      <TodoDate />
 
       <TodoList />
 
