@@ -1,18 +1,25 @@
 "use client";
+import Image from "next/image";
 import React from "react";
+import { todos } from "../ShareTodoList/ShareTodoList";
 
-const TodoItem = () => {
+interface propItem {
+  item: todos;
+}
+const TodoItem = ({ item }: propItem) => {
   return (
     <div className="relative p-5 border-2 rounded-xl bg-white border-zinc-900/[0.06]">
-      <div className="flex flex-col space-y-2">
-        <div className="text-xs font-medium text-zinc-900/[0.5]">user</div>
-        <div className="flex justify-between items-center">
-          <div className="text-base font-bold text-[#1c1d22]">잠자기</div>
+      <div className="flex flex-col">
+        <div className="text-xs font-medium text-zinc-900/[0.5]">
+          {item.user}
+        </div>
+        <div className="flex gap-5 items-center">
+          <div className="text-base font-bold text-[#1c1d22]">{item.title}</div>
           <div className="text-zinc-900/[0.5] text-xs font-medium">
-            잠을 잤어요
+            {item.content}
           </div>
         </div>
-        <div className="flex justify-between items-center mt-5">
+        <div className="flex items-center mt-5 gap-5">
           <div>
             <div className="text-xs font-medium text-zinc-900/[0.5]">
               시작일
@@ -32,9 +39,13 @@ const TodoItem = () => {
         </div>
       </div>
       <div className="absolute top-3 right-3 flex space-x-2">
-        <button className="text-xs font-medium">별</button>
-        <div className="h-7 w-7 border-2 rounded-full flex justify-center items-center">
-          <button className="leading-6">...</button>
+        <button className="text-xs font-medium">
+          <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+        </button>
+        <div className="h-7 w-7 flex justify-center items-center">
+          <button>
+            <Image src="/Ellipse.png" alt="더보기" width={20} height={20} />
+          </button>
         </div>
       </div>
     </div>
