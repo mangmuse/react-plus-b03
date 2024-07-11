@@ -1,14 +1,15 @@
+import { format } from "date-fns";
 import Image from "next/image";
 
 type DateSelectorProps = {
-  // date: string;
-  onPrev?: () => void;
-  onNext?: () => void;
+  selectedDate: Date;
+  onPrev: () => void;
+  onNext: () => void;
 };
 
-const DateSelector = ({ onPrev, onNext }: DateSelectorProps) => {
+const DateSelector = ({ selectedDate, onPrev, onNext }: DateSelectorProps) => {
   return (
-    <div className="flex justify-center gap-x-4 text-xs py-10 font-semibold">
+    <div className="flex justify-center gap-x-6 text-xs pt-6 pb-12 font-semibold">
       <button onClick={onPrev}>
         <Image
           src="/ic-arrow-left.png"
@@ -17,8 +18,7 @@ const DateSelector = ({ onPrev, onNext }: DateSelectorProps) => {
           height={6}
         />
       </button>
-      {/* 날짜 받아올때 타입 주석 풀고 {date}로 변경~ */}
-      <span>2024. 07. 09</span>
+      <span className="text-sm">{format(selectedDate, "yyyy. MM. dd")}</span>
       <button onClick={onNext}>
         <Image
           src="/ic-arrow-right.png"

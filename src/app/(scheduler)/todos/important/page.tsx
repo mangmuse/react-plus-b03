@@ -1,7 +1,17 @@
 import Page from "@/components/Page";
+import Calendar from "../../_components/Calendar";
+import TodoDate from "../../_components/TodoDate/TodoDate";
+import TodoList from "../../_components/TodoList";
 
 const ImportantTodosPage = () => {
-  return <Page title="중요 일정보기">important page</Page>;
+  return (
+    <Page title="IMPORTANT">
+      <TodoDate />
+
+      <TodoList />
+      <Calendar selectedDate={new Date()} />
+    </Page>
+  );
 };
 
 export default ImportantTodosPage;

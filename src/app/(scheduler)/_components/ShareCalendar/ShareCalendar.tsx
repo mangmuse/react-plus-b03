@@ -3,6 +3,7 @@ import ContentInput from "@/components/ContentInput";
 
 import Image from "next/image";
 import React from "react";
+import Calendar from "../Calendar";
 
 const ShareCalendar = () => {
   return (
@@ -21,10 +22,12 @@ const ShareCalendar = () => {
           </div>
         </button>
       </div>
-      <div className="w-full h-[400px] rounded-2xl shadow-[5px_15px_20px_5px_rgba(150,150,150,0.1)]"></div>
+      <div className="w-full h-[400px] rounded-2xl shadow-[5px_15px_20px_5px_rgba(150,150,150,0.1)]">
+        <Calendar selectedDate={new Date()} />
+      </div>
       <div className="flex ml-1 mt-3 gap-2">
         <Image src="/comment-icon.png" alt="말풍선" width={25} height={25} />
-        <span className="h-[20px] leading-7 text-zinc-900/[0.5] text-xs font-semibold leading-none">
+        <span className="h-[20px] leading-6 text-zinc-900/[0.5] text-xs font-semibold leading-none">
           댓글
         </span>
         <div className="mt-1 w-[20px] h-[20px] leading-4 rounded-md bg-black/[0.5] text-center">
