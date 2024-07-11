@@ -22,8 +22,8 @@ const ShareTodoList = () => {
   ]);
 
   return (
-    <div className="flex flex-col w-[440px] h-full rounded-xl border-2 border-[rgb(28, 29, 34, 0.08)]">
-      <span className="ml-5 text-sm font-semibold leading-none text-zinc-900/[0.5]">
+    <div className="pt-14 flex flex-col w-[440px] h-full rounded-xl border-2 border-[rgb(28, 29, 34, 0.08)]">
+      <span className="ml-5 pb-3 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         미완료 todo
       </span>
       <div className="flex flex-col space-y-2 mt-2 ml-5 mr-5">
@@ -31,12 +31,18 @@ const ShareTodoList = () => {
           <TodoItem key={item.user} item={item} />
         ))}
       </div>
-      {/* <span className="ml-5 mt-5 text-sm font-semibold leading-none text-zinc-900/[0.5]">
+      <span className="py-8 ml-5 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         완료 todo
       </span>
       <div className="flex flex-col space-y-2 mt-2 mr-5 ml-5">
-        <TodoItem />
-      </div> */}
+        {todo.map((item: todos) => (
+          <TodoItem
+            key={item.user}
+            item={item}
+            classname={"bg-neutral-100/[0.25]"}
+          />
+        ))}
+      </div>
     </div>
   );
 };
