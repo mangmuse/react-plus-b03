@@ -1,13 +1,28 @@
+"use Client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 //import { useState } from "react";
 
+interface TodayCountProps {}
+
 const SideBar = () => {
-  //const [count, setCount] = useState(0);
   return (
     <aside className="fixed w-64 min-h-screen bg-white h-screen">
       <div className="bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
-        <p className="font-semibold text-lg">유저 정보</p>
+        <div className="flex items-center">
+          <p className="bg-white border rounded-3xl text-xs w-12 h-12">
+            <Image
+              src="/icons/sidebar/ic-user-image.png"
+              alt=""
+              width={15}
+              height={15}
+              className="mt-4 ml-3.5"
+            ></Image>
+          </p>
+          <p className="font-semibold text-lg ml-5">유저 정보</p>
+        </div>
         <div className="mt-6">
           <div className="mb-6">
             <span className="block font-semibold text-xl">TODO</span>
@@ -65,6 +80,17 @@ const SideBar = () => {
                 </Link>
               </li>
             </ul>
+          </div>
+          <div className="flex gap-3 absolute bottom-10 right-20">
+            <button className="bg-slate-900 border rounded-3xl p-2 text-white flex gap-3 items-center">
+              로그아웃
+              <Image
+                src="/icons/sidebar/ic-logout.png"
+                alt=""
+                width={17}
+                height={17}
+              />
+            </button>
           </div>
         </div>
       </div>
