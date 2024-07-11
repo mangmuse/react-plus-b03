@@ -81,8 +81,8 @@ const SideBar = () => {
               </li>
             </ul>
           </div>
-          <div className="flex gap-3 absolute bottom-10 right-20">
-            <button className="bg-slate-900 border rounded-3xl p-2 text-white flex gap-3 items-center">
+          <div className="flex gap-3 absolute bottom-10 right-16">
+            <button className="bg-slate-900 border rounded-3xl p-2 px-5 text-white flex gap-3 items-center">
               로그아웃
               <Image
                 src="/icons/sidebar/ic-logout.png"
