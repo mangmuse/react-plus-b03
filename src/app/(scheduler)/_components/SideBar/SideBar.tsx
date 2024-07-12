@@ -3,7 +3,6 @@ import Image from "next/image";
 import TestComponent from "@/components/TestComponent";
 import Link from "next/link";
 
-interface TodayCountProps {}
 
 const SideBar = () => {
   return (
