@@ -6,39 +6,36 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type Database = {
-  public: {
-    Tables: {
-      users: {
-        Row: {
-          created_at: string;
-          email: string;
-          id: string;
-          username: string;
-        };
-        Insert: {
-          created_at?: string;
-          email: string;
-          id?: string;
-          username: string;
-        };
-        Update: {
-          created_at?: string;
-          email?: string;
-          id?: string;
-          username?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "users_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "users";
-            referencedColumns: ["id"];
+  export type Database = {
+    public: {
+      Tables: {
+        users: {
+          Row: {
+            email: string
+            id: string
+            nickname: string | null
           }
-        ];
-      };
-    };
+          Insert: {
+            email: string
+            id?: string
+            nickname?: string | null
+          }
+          Update: {
+            email?: string
+            id?: string
+            nickname?: string | null
+          }
+          Relationships: [
+            {
+              foreignKeyName: "users_id_fkey"
+              columns: ["id"]
+              isOneToOne: true
+              referencedRelation: "users"
+              referencedColumns: ["id"]
+            },
+          ]
+        }
+      }
     Views: {
       [_ in never]: never;
     };
