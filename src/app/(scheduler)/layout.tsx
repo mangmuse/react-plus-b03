@@ -1,7 +1,7 @@
 import { ModalProvider } from "@/services/modal/modal.context";
 import { PropsWithChildren } from "react";
 import OpenTodoModal from "./_components/OpenTodoModal";
-import SideBar from "./_components/SideBar/SideBar";
+import SideBar from "./_components/SideBar";
 
 const SchedulerLayout = ({ children }: PropsWithChildren) => {
   return (
