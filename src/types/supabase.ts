@@ -9,24 +9,239 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      users: {
+      calendars: {
         Row: {
-          created_at: string;
-          email: string;
+          createdAt: string;
+          description: string;
           id: string;
-          username: string;
+          name: string;
+          ownerId: string;
         };
         Insert: {
-          created_at?: string;
-          email: string;
+          createdAt?: string;
+          description?: string;
           id?: string;
-          username: string;
+          name?: string;
+          ownerId: string;
         };
         Update: {
-          created_at?: string;
+          createdAt?: string;
+          description?: string;
+          id?: string;
+          name?: string;
+          ownerId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "calendars_owner_id_fkey";
+            columns: ["ownerId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      comments: {
+        Row: {
+          calendarId: string;
+          content: string;
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          calendarId: string;
+          content: string;
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          calendarId?: string;
+          content?: string;
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "comments_calendarId_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "comments_user_id_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      default_calendars: {
+        Row: {
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "default_calendars_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      default_todos: {
+        Row: {
+          calendarId: string;
+          createdAt: string;
+          description: string | null;
+          endDate: string | null;
+          id: string;
+          startDate: string | null;
+          title: string;
+        };
+        Insert: {
+          calendarId: string;
+          createdAt?: string;
+          description?: string | null;
+          endDate?: string | null;
+          id?: string;
+          startDate?: string | null;
+          title: string;
+        };
+        Update: {
+          calendarId?: string;
+          createdAt?: string;
+          description?: string | null;
+          endDate?: string | null;
+          id?: string;
+          startDate?: string | null;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "default_todos_calendarId_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "default_calendars";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      participants: {
+        Row: {
+          calendarId: string;
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          calendarId: string;
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          calendarId?: string;
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "participants_calendar_id_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "participants_user_id_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      todos: {
+        Row: {
+          calendarId: string;
+          createdAt: string;
+          description: string | null;
+          endDate: string | null;
+          id: string;
+          isDone: boolean;
+          isImportant: boolean;
+          startDate: string | null;
+          title: string;
+        };
+        Insert: {
+          calendarId: string;
+          createdAt?: string;
+          description?: string | null;
+          endDate?: string | null;
+          id?: string;
+          isDone?: boolean;
+          isImportant?: boolean;
+          startDate?: string | null;
+          title?: string;
+        };
+        Update: {
+          calendarId?: string;
+          createdAt?: string;
+          description?: string | null;
+          endDate?: string | null;
+          id?: string;
+          isDone?: boolean;
+          isImportant?: boolean;
+          startDate?: string | null;
+          title?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "todos_calendar_id_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      users: {
+        Row: {
+          email: string;
+          id: string;
+          image_url: string | null;
+          nickname: string;
+        };
+        Insert: {
+          email: string;
+          id?: string;
+          image_url?: string | null;
+          nickname: string;
+        };
+        Update: {
           email?: string;
           id?: string;
-          username?: string;
+          image_url?: string | null;
+          nickname?: string;
         };
         Relationships: [
           {
@@ -35,7 +250,7 @@ export type Database = {
             isOneToOne: true;
             referencedRelation: "users";
             referencedColumns: ["id"];
-          }
+          },
         ];
       };
     };
@@ -63,7 +278,7 @@ export type Tables<
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -87,7 +302,7 @@ export type TablesInsert<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I;
@@ -108,7 +323,7 @@ export type TablesUpdate<
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U;
@@ -129,7 +344,7 @@ export type Enums<
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
