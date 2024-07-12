@@ -5,6 +5,8 @@ import Image from "next/image";
 import AlertModal from "./AlertModal";
 import BackDrop from "./BackDrop";
 import ConfirmModal from "./ConfirmModal";
+import DeleteModal from "./DeleteModal";
+import ModifyModal from "./ModifyModal";
 import TodoInput from "./TodoInput";
 
 const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
@@ -27,6 +29,10 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
         );
       case "alert":
         return <AlertModal type={type} content={content} onClose={onClose} />;
+      case "Edit":
+        return <DeleteModal type={type} content={content} onClose={onClose} />;
+      case "Modify":
+        return <ModifyModal type={type} content={content} onClose={onClose} />;
       default:
         return null;
     }
@@ -34,7 +40,7 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
 
   return (
     <BackDrop>
-      <div className="relative bg-white p-12 rounded min-w-[340px]">
+      <div className="relative bg-white p-10 rounded min-w-[340px]">
         <button onClick={handleCloseModal} className="absolute top-2 right-2">
           <Image src="/ic-close.png" alt="close icon" width={50} height={50} />
         </button>
