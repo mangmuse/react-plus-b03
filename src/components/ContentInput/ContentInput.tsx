@@ -6,7 +6,7 @@ const ContentInput = () => {
     <>
       <div className="flex ml-1 mt-3 gap-2">
         <Image src="/comment-icon.png" alt="말풍선" width={25} height={25} />
-        <span className="h-[20px] leading-6 text-zinc-900/[0.5] text-xs font-semibold leading-none">
+        <span className="h-[20px] leading-6 text-zinc-900/[0.5] text-xs font-semibold">
           댓글
         </span>
         <div className="mt-1 w-[20px] h-[20px] leading-4 rounded-md bg-black/[0.5] text-center">
