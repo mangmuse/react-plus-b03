@@ -31,18 +31,22 @@ export default function LoginPage() {
     const supabase = getSupabaseClient(); 
 
     try {
-      const { error, data } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const response = await fetch("/api/auth/login",{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email, password}),
       });
+      console.log(response);
 
-      if (error) {
-        setError(error.message);
-        return;
-      } else {
-        if (data.user) {
-          // Supabase에서 사용자 정보 가져오기
-          const { data: userData, error: userError } = await getUserData(email);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error("로그인 실패: " + data.error);
+      }
+   
+      const { data: userData, error: userError } = await getUserData(email);
+      console.log(userData, userError);
 
           if (userError) {
             alert("사용자 정보를 가져오는 데 실패했습니다.");
@@ -51,10 +55,8 @@ export default function LoginPage() {
             // Zustand 상태 업데이트
             setUser(userData.id, userData.email, userData.nickname ?? "");
             alert("로그인 성공");
-            router.push("/");
           }
-        }
-      }
+        
       console.log("login");
       router.push("/todos/today");
     } catch (error) {
