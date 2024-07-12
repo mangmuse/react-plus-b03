@@ -1,7 +1,5 @@
-import Section from "@/components/Section";
-
 const SharedCalendarPage = () => {
-  return <Section />;
+  return <div>sharedPage</div>;
 };
 
 export default SharedCalendarPage;

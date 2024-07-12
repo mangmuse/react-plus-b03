@@ -22,7 +22,7 @@ const ShareTodoList = () => {
   ]);
 
   return (
-    <div className="pt-14 flex flex-col w-[440px] h-full rounded-xl border-2 border-[rgb(28, 29, 34, 0.08)]">
+    <div className="pt-14 flex flex-col w-[440px] h-full rounded-xl border-dashed border-2 border-[rgb(28, 29, 34, 0.08)]">
       <span className="ml-5 pb-3 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         미완료 todo
       </span>
