@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
 
-const useCalendarsQuery = (calendarId: string) => {
+const useTodosQuery = (calendarId: string) => {
   const {
     data: todos,
     error,
@@ -27,4 +27,4 @@ const useCalendarsQuery = (calendarId: string) => {
   return { todos, error, isPending };
 };
 
-export default useCalendarsQuery;
+export default useTodosQuery;
