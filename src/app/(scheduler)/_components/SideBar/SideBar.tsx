@@ -1,3 +1,4 @@
+import TestComponent from "@/components/TestComponent";
 import Link from "next/link";
 
 const SideBar = () => {
@@ -26,6 +27,7 @@ const SideBar = () => {
           </li>
         </ul>
       </div>
+      <TestComponent />
     </aside>
   );
 };
