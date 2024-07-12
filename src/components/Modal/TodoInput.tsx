@@ -9,7 +9,9 @@ const TodoInput = () => {
       <Input label="아이디" />
       <Input label="아이디" />
 
-      <Button className="mt-8 mx-auto w-full"> 투두 추가하기 </Button>
+      <Button size="lg" className="mt-8 mx-auto w-full">
+        투두 추가하기
+      </Button>
     </div>
   );
 };
