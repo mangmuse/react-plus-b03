@@ -6,8 +6,12 @@ const ConfirmModal = ({ type, content, onConfirm, onCancel }: ModalProps) => {
     <div>
       <div className="text-center">{content}</div>
       <div className="flex w-full justify-between mt-8">
-        <Button onClick={onConfirm}>확인버튼</Button>
-        <Button onClick={onCancel}>취소버튼</Button>
+        <Button color="secondary" size="sm" onClick={onCancel}>
+          취소
+        </Button>
+        <Button size="sm" onClick={onConfirm}>
+          확인
+        </Button>
       </div>
     </div>
   );
