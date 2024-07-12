@@ -1,21 +1,22 @@
-import Button from "@/components/Button/Button";
+import { ModalProvider } from "@/services/modal/modal.context";
 import { PropsWithChildren } from "react";
-import SideBar from "./_components/SideBar/SideBar";
+import OpenTodoModal from "./_components/OpenTodoModal";
+import SideBar from "./_components/SideBar";
 
 const SchedulerLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="flex">
-      <SideBar />
+    <ModalProvider>
+      <div className="flex">
+        <SideBar />
 
-      <div className="flex flex-grow ml-64">
-        <div className="relative flex flex-col h-full w-full">
-          <div className="sticky top-0 flex items-center flex-row-reverse bg-white shadow-bottom w-full h-[80px] z-10">
-            <Button className="mr-6">일정 추가하기</Button>
+        <div className="flex flex-grow ml-64">
+          <div className="relative flex flex-col h-full w-full">
+            <OpenTodoModal />
+            {children}
           </div>
-          {children}
         </div>
       </div>
-    </div>
+    </ModalProvider>
   );
 };
 
