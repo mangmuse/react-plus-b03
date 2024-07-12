@@ -1,13 +1,23 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { todos } from "../ShareTodoList/ShareTodoList";
+import { useModal } from "@/services/modal/modal.context";
+import EditMenuBox from "@/components/Modal/EditMenuBox";
+import ModifyModal from "@/components/Modal/ModifyModal";
 
 interface propItem {
   item: todos;
   classname?: string;
 }
+
 const TodoItem = ({ item, classname }: propItem) => {
+  const [open, setOpen] = useState(false);
+
+  const modal = useModal();
+  const handleOpenModal = () => {
+    setOpen(!open);
+  };
   return (
     <div
       className={`relative p-5 rounded-xl bg-white ${
@@ -47,10 +57,15 @@ const TodoItem = ({ item, classname }: propItem) => {
         <button className="text-xs font-medium">
           <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
         </button>
-        <div className="h-7 w-7 flex justify-center items-center">
-          <button>
+        <div className="h-5 w-7 flex flex-col items-center">
+          <button onClick={handleOpenModal}>
             <Image src="/Ellipse.png" alt="더보기" width={20} height={20} />
           </button>
+          {open && (
+            <div className="">
+              <EditMenuBox />
+            </div>
+          )}
         </div>
       </div>
     </div>

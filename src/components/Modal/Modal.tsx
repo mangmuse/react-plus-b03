@@ -6,6 +6,8 @@ import AlertModal from "./AlertModal";
 import BackDrop from "./BackDrop";
 import ConfirmModal from "./ConfirmModal";
 import TodoInput from "./TodoInput";
+import DeleteModal from "./DeleteModal";
+import ModifyModal from "./ModifyModal";
 
 const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
   const handleCloseModal = () => {
@@ -27,6 +29,10 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
         );
       case "alert":
         return <AlertModal type={type} content={content} onClose={onClose} />;
+      case "Edit":
+        return <DeleteModal type={type} content={content} onClose={onClose} />;
+      case "Modify":
+        return <ModifyModal type={type} content={content} onClose={onClose} />;
       default:
         return null;
     }
