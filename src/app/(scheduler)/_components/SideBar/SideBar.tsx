@@ -23,7 +23,7 @@ const SideBar = () => {
         </div>
         <div className="mt-6 ml-7">
           <div className="mb-6">
-            <span className="block font-semibold text-xl">TODO</span>
+            <span className="block font-semibold text-xl">TODO </span>
             <ul className="mt-4">
               <li className="flex items-center mb-4">
                 <Image
