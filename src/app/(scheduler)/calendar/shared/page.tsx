@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/Button";
 import Page from "@/components/Page";
 import { useModal } from "@/services/modal/modal.context";
