@@ -1,7 +1,7 @@
-import Page from "@/components/Page";
+import Section from "@/components/Section";
 
 const SharedCalendarPage = () => {
-  return <Page title="공유 캘린더">공유 캘린더 페이지</Page>;
+  return <Section />;
 };
 
 export default SharedCalendarPage;
