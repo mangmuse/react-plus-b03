@@ -1,13 +1,24 @@
+"use client";
+
 import Button from "@/components/Button";
 import Page from "@/components/Page";
+import useCalendarMutation from "@/hooks/useMutation/useCalendarMutation";
 import Image from "next/image";
 
 const SharedCalendarOverviewPage = () => {
+  const { createCalendar } = useCalendarMutation();
+  const handleClick = async () => {
+    const newCalendar = { name: "이거는 제목", description: "asd" };
+    createCalendar(newCalendar);
+  };
+
   return (
     <Page title="공유 일정보기">
       <div>
         <div className="w-full flex justify-end mb-4">
-          <Button color="secondary">공유 일정추가</Button>
+          <Button onClick={handleClick} color="secondary">
+            공유 일정추가
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-4 mt-4">
