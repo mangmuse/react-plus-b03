@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-//import { useState } from "react";
 
 interface TodayCountProps {}
 
@@ -23,7 +21,7 @@ const SideBar = () => {
           </p>
           <p className="font-semibold text-lg ml-5">유저 정보</p>
         </div>
-        <div className="mt-6">
+        <div className="mt-6 ml-7">
           <div className="mb-6">
             <span className="block font-semibold text-xl">TODO</span>
             <ul className="mt-4">
