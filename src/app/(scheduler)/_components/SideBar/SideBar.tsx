@@ -21,6 +21,9 @@ const SideBar = () => {
           <li>
             <Link href="/calendar/shared">공유 일정보기</Link>
           </li>
+          <li>
+            <Link href="/calendar/notshare">공유 없음</Link>
+          </li>
         </ul>
       </div>
     </aside>
