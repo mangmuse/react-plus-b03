@@ -8,8 +8,8 @@ const TodoInput = () => {
     <div>
       <Input required label="투두 제목" />
       <Input label="투두 내용" />
-      <Input label="아이디" />
-      <Input label="아이디" />
+      <Input type="date" label="아이디" />
+      <Input type="date" label="아이디" />
 
       <Button size="lg" className="mt-8 mx-auto w-full">
         투두 추가하기

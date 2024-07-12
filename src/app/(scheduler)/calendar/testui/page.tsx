@@ -2,35 +2,22 @@
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
-import useCalendarMutation from "@/hooks/useMutation/useCalendarMutation";
+import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import Image from "next/image";
 
 const SharedCalendarOverviewPage = () => {
-  const { createCalendar } = useCalendarMutation();
-  const handleClick = async () => {
-    const newCalendar = { name: "이거는 제목", description: "asd" };
-    createCalendar(newCalendar);
-  };
-
   return (
     <Page title="공유 일정보기">
       <div>
         <div className="w-full flex justify-end mb-4">
-          <Button onClick={handleClick} color="secondary">
-            공유 일정추가
-          </Button>
+          <Button color="secondary">공유 일정추가</Button>
         </div>
 
         <div className="grid grid-cols-3 gap-4 mt-4">
           <div className="flex flex-col border-2 border-black rounded-md p-6">
             <div className="flex justify-end items-center mb-4">
               <div className="relative w-4 h-4 mr-2">
-                <Image
-                  src="/ic-members.png"
-                  alt="members icon"
-                  layout="fill"
-                  objectFit="contain"
-                />
+                <Image src="/ic-members.png" alt="members icon" layout="fill" objectFit="contain" />
               </div>
               <span>5</span>
             </div>

@@ -8,6 +8,7 @@ import ConfirmModal from "./ConfirmModal";
 import DeleteModal from "./DeleteModal";
 import ModifyModal from "./ModifyModal";
 import TodoInput from "./TodoInput";
+import MdSharedCalendarForm from "./MdSharedCalendarForm";
 
 const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
   const handleCloseModal = () => {
@@ -27,6 +28,8 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
             onCancel={onCancel}
           />
         );
+      case "form":
+        return <MdSharedCalendarForm />;
       case "alert":
         return <AlertModal type={type} content={content} onClose={onClose} />;
       case "Edit":
