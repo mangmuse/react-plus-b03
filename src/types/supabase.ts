@@ -102,38 +102,48 @@ export type Database = {
       };
       default_todos: {
         Row: {
-          calendarId: string;
           createdAt: string;
+          defaultCalendarId: string;
           description: string | null;
           endDate: string | null;
           id: string;
           startDate: string | null;
           title: string;
+          userId: string | null;
         };
         Insert: {
-          calendarId: string;
           createdAt?: string;
+          defaultCalendarId: string;
           description?: string | null;
           endDate?: string | null;
           id?: string;
           startDate?: string | null;
           title: string;
+          userId?: string | null;
         };
         Update: {
-          calendarId?: string;
           createdAt?: string;
+          defaultCalendarId?: string;
           description?: string | null;
           endDate?: string | null;
           id?: string;
           startDate?: string | null;
           title?: string;
+          userId?: string | null;
         };
         Relationships: [
           {
             foreignKeyName: "default_todos_calendarId_fkey";
-            columns: ["calendarId"];
+            columns: ["defaultCalendarId"];
             isOneToOne: false;
             referencedRelation: "default_calendars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "default_todos_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
@@ -185,6 +195,7 @@ export type Database = {
           isImportant: boolean;
           startDate: string | null;
           title: string;
+          userId: string | null;
         };
         Insert: {
           calendarId: string;
@@ -196,6 +207,7 @@ export type Database = {
           isImportant?: boolean;
           startDate?: string | null;
           title?: string;
+          userId?: string | null;
         };
         Update: {
           calendarId?: string;
@@ -207,6 +219,7 @@ export type Database = {
           isImportant?: boolean;
           startDate?: string | null;
           title?: string;
+          userId?: string | null;
         };
         Relationships: [
           {
@@ -214,6 +227,13 @@ export type Database = {
             columns: ["calendarId"];
             isOneToOne: false;
             referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "todos_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];

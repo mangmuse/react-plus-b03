@@ -5,6 +5,7 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const calendarId = searchParams.get("calendarId");
   const supabase = createClient();
+  console.log(calendarId);
 
   if (calendarId) {
     const { data: todos, error: todoError } = await supabase

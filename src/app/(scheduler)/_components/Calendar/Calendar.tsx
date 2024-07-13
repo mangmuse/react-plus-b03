@@ -25,21 +25,11 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
     return (
       <div className="flex justify-center gap-x-6 text-xs py-6 pb-12 font-semibold">
         <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>
-          <Image
-            src="/ic-arrow-left.png"
-            alt="left arrow icon"
-            width={6}
-            height={6}
-          />
+          <Image src="/ic-arrow-left.png" alt="left arrow icon" width={6} height={6} />
         </button>
         <div>{format(currentMonth, "yyyy년 MM월")}</div>
         <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
-          <Image
-            src="/ic-arrow-right.png"
-            alt="right arrow icon"
-            width={6}
-            height={6}
-          />
+          <Image src="/ic-arrow-right.png" alt="right arrow icon" width={6} height={6} />
         </button>
       </div>
     );
@@ -74,23 +64,19 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
         days.push(
           <div
             className={`p-2 text-center ${
-              format(currentMonth, "M") !== format(day, "M")
-                ? "text-gray-400"
-                : ""
-            } ${
-              isSameDay(day, selectedDate) ? "bg-blue-200 rounded-full" : ""
-            }`}
+              format(currentMonth, "M") !== format(day, "M") ? "text-gray-400" : ""
+            } ${isSameDay(day, selectedDate) ? "bg-blue-200 rounded-full" : ""}`}
             key={day.toString()}
           >
             <span>{formattedDate}</span>
-          </div>
+          </div>,
         );
         day = addDays(day, 1);
       }
       rows.push(
         <div className="grid grid-cols-7" key={day.toString()}>
           {days}
-        </div>
+        </div>,
       );
       days = [];
     }
