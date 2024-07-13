@@ -1,7 +1,10 @@
 "use client";
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
 import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
+import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
+import { sortByCreatedAt } from "@/utils/formatSchedules";
 
 type SectionProps = {
   calendarId: string;
@@ -9,7 +12,8 @@ type SectionProps = {
 
 const Section = ({ calendarId }: SectionProps) => {
   const { todos, error, isPending } = useTodosQuery(calendarId);
-  console.log(todos);
+  const sortedTodo = todos && sortByCreatedAt<Ttodo>(todos);
+
   if (isPending) return <div>loading</div>;
   return (
     <section className="grid grid-cols-1 lg:grid-cols-5 gap-4">
@@ -18,7 +22,7 @@ const Section = ({ calendarId }: SectionProps) => {
       </div>
       {todos && (
         <div className="lg:col-span-2">
-          <ShareTodoList isShared={true} todos={todos} />
+          <ShareTodoList isShared={true} todos={sortedTodo} />
         </div>
       )}
     </section>

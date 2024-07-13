@@ -46,10 +46,6 @@ export async function PATCH(req: NextRequest) {
     const updatedTodo = await req.json();
 
     if (todoId && updatedTodo) {
-      console.log(updatedTodo);
-      console.log(
-        "이거는 업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두",
-      );
       const { data, error } = await supabase
         .from("default_todos")
         .update(updatedTodo)

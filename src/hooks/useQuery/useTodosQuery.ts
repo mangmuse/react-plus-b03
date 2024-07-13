@@ -3,8 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
 
-
-
 const useTodosQuery = (calendarId: string) => {
   const {
     data: todos,
@@ -23,7 +21,6 @@ const useTodosQuery = (calendarId: string) => {
         throw new Error("캘린더를 가져오지 못했습니다.");
       }
       const todos = await res.json();
-      console.log(todos);
       return todos.todos;
     },
   });

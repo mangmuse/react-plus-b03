@@ -7,16 +7,20 @@ import ModifyModal from "@/components/Modal/ModifyModal";
 import useTodoStore, { todo } from "@/store/useTodoStore";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
+import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 
-interface propItem {
-  // item: Ttodo | TDefaultTodo;
-  item: any; // TODOTODO
-  isShared?: boolean;
+export type PropItem = {
+  item: Ttodo | TDefaultTodo;
   classname?: string;
-}
+  isShared: boolean;
+};
+const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
+  return (item as Ttodo).calendarId !== undefined;
+};
 
-const TodoItem = ({ item, classname, isShared }: propItem) => {
+const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { setSelectedTodo, selectedTodo } = useTodoStore();
+  const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
   const modal = useModal();
@@ -26,15 +30,25 @@ const TodoItem = ({ item, classname, isShared }: propItem) => {
       setSelectedTodo(item);
     }
   };
+
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = async () => {
+    const updatedTodo = {
+      id: item.id,
+      isDone: !item.isDone,
+    };
+    isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
+  };
+
   if (item)
     return (
       <div
-        className={`relative p-5 rounded-xl bg-white ${
+        onClick={handleClick}
+        className={`cursor-pointer relative p-5 rounded-xl bg-white hover:scale-105 ${
           classname ? classname : "border-zinc-900/[0.06] border-2"
         }`}
       >
         <div className="flex flex-col">
-          {isShared && (
+          {isShared && isTtodo(item) && (
             <div className="text-xs font-medium text-zinc-900/[0.5]">{item.nickname}</div>
           )}
           <div className="flex gap-5 items-center">

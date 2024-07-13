@@ -4,8 +4,6 @@ import TestComponent from "@/components/TestComponent";
 import Link from "next/link";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 
-interface TodayCountProps {}
-
 const SideBar = () => {
   const { todos, isPending, error } = useMyScheduleQuery();
 

@@ -8,10 +8,14 @@ const TodoList = () => {
   const { todos, error, isPending } = useMyScheduleQuery();
   const sortedTodo = todos && sortByCreatedAt<TDefaultTodo>(todos);
   console.log(sortedTodo);
+
+  const pendingTodos = sortedTodo?.filter((todo) => !todo.isDone) || [];
+  const completedTodos = sortedTodo?.filter((todo) => todo.isDone) || [];
+
   return (
     <div className="flex flex-wrap justify-around gap-4">
-      <TodoBlock todos={sortedTodo} title="미완료 TODO" />
-      <TodoBlock todos={sortedTodo} title="완료 TODO" />
+      <TodoBlock todos={pendingTodos} title="미완료 TODO" />
+      <TodoBlock todos={completedTodos} title="완료 TODO" />
       {/* <ShareTodoList />
       <ShareTodoList /> */}
     </div>
