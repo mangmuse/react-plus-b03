@@ -84,7 +84,7 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       {renderHeader()}
       {renderDays()}
       {renderCells()}

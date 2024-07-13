@@ -1,4 +1,5 @@
 "use client";
+import Page from "@/components/Page";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 import Calendar from "../../_components/Calendar";
 import ShareTodoList from "../../_components/ShareTodoList";
@@ -6,16 +7,19 @@ import ShareTodoList from "../../_components/ShareTodoList";
 const MyCalendarPage = () => {
   const { todos, error, isPending } = useMyScheduleQuery();
   return (
-    <section className="flex bg-white gap-7 pl-6 pt-4 pb-5">
-      <div className="flex flex-col gap-28">
-        <span className="text-[36px] font-bold">공유 일정보기</span>
-        <div className="w-[790px] h-[400px] rounded-2xl shadow-[5px_15px_20px_5px_rgba(150,150,150,0.1)]">
-          <div className="border-t border-solid"></div>
-          <Calendar selectedDate={new Date()} />
+    <Page title="내 일정보기">
+      <section className="w-full grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div className="lg:col-span-3">
+          <div className="w-full rounded-2xl shadow-[5px_15px_20px_5px_rgba(150,150,150,0.1)]">
+            <div className="border-t border-solid"></div>
+            <Calendar selectedDate={new Date()} />
+          </div>
         </div>
-      </div>
-      <ShareTodoList isShared={false} todos={todos} />
-    </section>
+        <div className="lg:col-span-2">
+          <ShareTodoList isShared={false} todos={todos} />
+        </div>
+      </section>
+    </Page>
   );
 };
 
