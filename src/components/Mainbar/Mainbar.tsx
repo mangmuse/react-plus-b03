@@ -11,12 +11,7 @@ const Mainbar = ({ title }: propstype) => {
         <div className="flex gap-1">
           {title}
           {title === "캘린더 공유" && (
-            <Image
-              src="/shareicon.png"
-              alt="공유아이콘"
-              width={20}
-              height={20}
-            />
+            <Image src="/shareicon.png" alt="공유아이콘" width={20} height={20} />
           )}
         </div>
       </button>
