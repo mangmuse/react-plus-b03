@@ -1,4 +1,3 @@
-import { calendars } from "./../useQuery/useCalendarsQuery";
 import { Tables } from "@/types/supabase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 

@@ -2,8 +2,9 @@
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
-import useCalendarsQuery from "@/hooks/useQuery/useCalendarsQuery";
+import useCalendarsQuery, { TCalendar } from "@/hooks/useQuery/useCalendarsQuery";
 import { useModal } from "@/services/modal/modal.context";
+import { sortByCreatedAt } from "@/utils/formatSchedules";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,8 +15,8 @@ const SharedCalendarPage = () => {
   const handleOpenModal = () => {
     modal.open({ type: "form", content: "이건 확인 모달" });
   };
+  const sortedCalendars = calendars && sortByCreatedAt<TCalendar>(calendars);
 
-  calendars && console.log(calendars);
   if (isPending) {
     return <div>Loading...</div>;
   }
@@ -50,7 +51,7 @@ const SharedCalendarPage = () => {
                   </div>
                   <h5 className="text-lg font-semibold pb-2">{calendar.name}</h5>
                   <p className="text-gray-600 text-sm mb-4">{calendar.description}</p>
-                  <span>Owner: {calendar.ownerId}</span>
+                  <span>Owner: {calendar.ownerNickname.nickname}</span>
                 </div>
               </Link>
             ))}

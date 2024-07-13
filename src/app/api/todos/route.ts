@@ -1,4 +1,4 @@
-import { getBetweenDates } from "@/utils/formatTodo";
+import { getBetweenDates } from "@/utils/formatSchedules";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,10 +1,13 @@
 "use client";
-import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
+import useMyScheduleQuery, { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import Calendar from "../../_components/Calendar";
 import ShareTodoList from "../../_components/ShareTodoList";
+import { sortByCreatedAt } from "@/utils/formatSchedules";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 
 const MyCalendarPage = () => {
   const { todos, error, isPending } = useMyScheduleQuery();
+  const sortedTodos = todos && sortByCreatedAt<TDefaultTodo>(todos);
   return (
     <section className="flex bg-white gap-7 pl-6 pt-4 pb-5">
       <div className="flex flex-col gap-28">
