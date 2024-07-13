@@ -1,14 +1,24 @@
 "use client";
+import { Tables } from "./../../types/supabase";
 
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
+
+export type Ttodo = Tables<"todos"> & {
+  dateArray: string[];
+  nickname: string;
+};
+
+type Ttodos = {
+  todos: Ttodo[];
+};
 
 const useTodoQuery = (todoId: string) => {
   const {
     data: todo,
     error,
     isPending,
-  } = useQuery({
+  } = useQuery<Ttodos, Error>({
     queryKey: ["todos", { todoId }],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/todo?todoId=${todoId}`, {

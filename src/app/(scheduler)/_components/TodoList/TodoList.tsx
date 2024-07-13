@@ -7,7 +7,7 @@ import ShareTodoList from "../ShareTodoList";
 
 const TodoList = () => {
   const { todos, error, isPending } = useMyScheduleQuery();
-  todos && console.log(todos);
+
   return (
     <div className="flex flex-wrap justify-around gap-4">
       <TodoBlock todos={todos} title="미완료 TODO" />

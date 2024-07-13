@@ -1,11 +1,14 @@
-"use Client";
+"use client";
 import Image from "next/image";
 import TestComponent from "@/components/TestComponent";
 import Link from "next/link";
+import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 
 interface TodayCountProps {}
 
 const SideBar = () => {
+  const { todos, isPending, error } = useMyScheduleQuery();
+
   return (
     <aside className="fixed w-64 min-h-screen bg-white h-screen">
       <div className="bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
@@ -34,7 +37,11 @@ const SideBar = () => {
                 />
                 <Link href="/todos/today" className="ml-3 flex items-center">
                   TODAY
-                  <span className="bg-red-500 text-white ml-2 px-2 py-1 text-xs rounded-lg">2</span>
+                  {todos && (
+                    <span className="bg-red-500 text-white ml-2 px-2 py-1 text-xs rounded-lg">
+                      {todos.length}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li className="flex items-center">

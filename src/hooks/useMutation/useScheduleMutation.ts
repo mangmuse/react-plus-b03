@@ -136,7 +136,7 @@ const useScheduleMutation = () => {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["default_todo"] });
+      queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
   return {
