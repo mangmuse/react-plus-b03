@@ -2,6 +2,7 @@
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
+import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useModal } from "@/services/modal/modal.context";
 import Image from "next/image";
 
@@ -10,44 +11,6 @@ const SharedCalendarPage = () => {
   const handleOpenModal = () => {
     modal.open({ type: "form", content: "이건 확인 모달" });
   };
-  const sharedCalendars = [
-    {
-      title: "프로젝트 이름",
-      detail: "우아",
-      owner: "와아",
-      members: 1,
-    },
-    {
-      title: "프로젝트 이름",
-      detail: "우아1",
-      owner: "와아",
-      members: 2,
-    },
-    {
-      title: "프로젝트 이름",
-      detail: "우아3",
-      owner: "우오오",
-      members: 3,
-    },
-    {
-      title: "프로젝트 이름",
-      detail: "우아4",
-      owner: "우오오4",
-      members: 4,
-    },
-    {
-      title: "프로젝트 이름",
-      detail: "우아5",
-      owner: "우오오5",
-      members: 5,
-    },
-    {
-      title: "리액트",
-      detail: "모르겠다",
-      owner: "ㅎㅎ",
-      members: 6,
-    },
-  ];
 
   return (
     <Page title="공유 일정보기">
@@ -89,3 +52,42 @@ const SharedCalendarPage = () => {
 };
 
 export default SharedCalendarPage;
+
+const sharedCalendars = [
+  {
+    title: "프로젝트 이름",
+    detail: "우아",
+    owner: "와아",
+    members: 1,
+  },
+  {
+    title: "프로젝트 이름",
+    detail: "우아1",
+    owner: "와아",
+    members: 2,
+  },
+  {
+    title: "프로젝트 이름",
+    detail: "우아3",
+    owner: "우오오",
+    members: 3,
+  },
+  {
+    title: "프로젝트 이름",
+    detail: "우아4",
+    owner: "우오오4",
+    members: 4,
+  },
+  {
+    title: "프로젝트 이름",
+    detail: "우아5",
+    owner: "우오오5",
+    members: 5,
+  },
+  {
+    title: "리액트",
+    detail: "모르겠다",
+    owner: "ㅎㅎ",
+    members: 6,
+  },
+];
