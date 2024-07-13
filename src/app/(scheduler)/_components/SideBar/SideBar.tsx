@@ -34,9 +34,7 @@ const SideBar = () => {
                 />
                 <Link href="/todos/today" className="ml-3 flex items-center">
                   TODAY
-                  <span className="bg-red-500 text-white ml-2 px-2 py-1 text-xs rounded-lg">
-                    2
-                  </span>
+                  <span className="bg-red-500 text-white ml-2 px-2 py-1 text-xs rounded-lg">2</span>
                 </Link>
               </li>
               <li className="flex items-center">
@@ -82,17 +80,12 @@ const SideBar = () => {
           <div className="flex gap-3 absolute bottom-10 right-16">
             <button className="bg-slate-900 border rounded-3xl p-2 px-5 text-white flex gap-3 items-center">
               로그아웃
-              <Image
-                src="/icons/sidebar/ic-logout.png"
-                alt=""
-                width={17}
-                height={17}
-              />
+              <Image src="/icons/sidebar/ic-logout.png" alt="" width={17} height={17} />
             </button>
+            <TestComponent />
           </div>
         </div>
       </div>
-      <TestComponent />
     </aside>
   );
 };

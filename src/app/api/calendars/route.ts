@@ -19,33 +19,31 @@ export async function GET(req: NextRequest) {
       .eq("userId", userId);
 
     if (calendarIds && calendarIds.length > 0) {
-      const calendarPromises = calendarIds.map(
-        async (item: { calendarId: string }) => {
-          const { data: calendarData, error } = await supabase
-            .from("calendars")
-            .select("*")
-            .eq("id", item.calendarId)
-            .single();
+      const calendarPromises = calendarIds.map(async (item: { calendarId: string }) => {
+        const { data: calendarData, error } = await supabase
+          .from("calendars")
+          .select("*")
+          .eq("id", item.calendarId)
+          .single();
 
-          if (error) {
-            console.error(error.message);
-            return null;
-          }
-
-          const { data: participantData, error: countError } = await supabase
-            .from("participants")
-            .select("id")
-            .eq("calendarId", item.calendarId);
-
-          if (countError) {
-            console.error(countError.message);
-            return null;
-          }
-          const participantCount = participantData.length;
-
-          return { ...calendarData, participantCount };
+        if (error) {
+          console.error(error.message);
+          return null;
         }
-      );
+
+        const { data: participantData, error: countError } = await supabase
+          .from("participants")
+          .select("id")
+          .eq("calendarId", item.calendarId);
+
+        if (countError) {
+          console.error(countError.message);
+          return null;
+        }
+        const participantCount = participantData.length;
+
+        return { ...calendarData, participantCount };
+      });
       const calendarsData = await Promise.all(calendarPromises);
       return NextResponse.json({ calendars: calendarsData });
     }

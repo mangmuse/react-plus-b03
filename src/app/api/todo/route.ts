@@ -12,17 +12,14 @@ export async function POST(req: NextRequest) {
   if (user && !userError) {
     const { id: userId } = user;
     const newTodo = {
-      calendarId: "1afbfb2c-850e-49a5-bc83-558bd3e5f68e",
+      calendarId: "6f072435-25ed-4a19-9f0d-daa5a8e4ff66",
       title: "테스트테스트",
       description: "테스트디스크립션",
       startDate: "2024-07-12",
       endDate: "2024-07-14",
     };
 
-    const { status: insertStatus } = await supabase
-      .from("todos")
-      .insert(newTodo)
-      .single();
+    const { status: insertStatus } = await supabase.from("todos").insert(newTodo).single();
 
     return NextResponse.json(insertStatus);
   }
