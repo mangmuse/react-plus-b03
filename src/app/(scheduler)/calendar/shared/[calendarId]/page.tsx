@@ -1,5 +1,5 @@
+import Page from "@/components/Page";
 import Section from "@/components/Section";
-import React from "react";
 
 type SharedCalendarPageProps = {
   params: {
@@ -8,7 +8,11 @@ type SharedCalendarPageProps = {
 };
 
 const sharedCalenderPage = ({ params: { calendarId } }: SharedCalendarPageProps) => {
-  return <Section calendarId={calendarId} />;
+  return (
+    <Page title="공유 일정보기">
+      <Section calendarId={calendarId} />
+    </Page>
+  );
 };
 
 export default sharedCalenderPage;
