@@ -15,7 +15,7 @@ const Section = ({ calendarId }: SectionProps) => {
   return (
     <section className="flex bg-white gap-7 pl-6 pt-4 pb-5">
       <ShareCalendar />
-      {todos && <ShareTodoList todos={todos} />}
+      {todos && <ShareTodoList isShared={true} todos={todos} />}
     </section>
   );
 };

@@ -3,8 +3,10 @@ import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import Button from "../Button";
 import Input from "../Input";
 import { ChangeEventHandler, useRef, useState } from "react";
+import { useModal } from "@/services/modal/modal.context";
 
 const MdSharedCalendarForm = () => {
+  const { close } = useModal();
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const { createCalendar } = useScheduleMutation();
@@ -23,6 +25,7 @@ const MdSharedCalendarForm = () => {
     }
     const newCalendar = { name, description };
     createCalendar(newCalendar);
+    close();
   };
   return (
     <div>

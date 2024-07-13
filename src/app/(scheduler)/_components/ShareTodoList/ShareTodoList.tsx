@@ -1,23 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import TodoItem from "../TodoItem";
+import { Tables } from "@/types/supabase";
 
-export type todo = {
-  calendarId: string;
-  createdAt: string;
-  description: string | null;
-  endDate: string | null;
-  id: string;
-  isDone: boolean;
-  isImportant: boolean;
-  startDate: string | null;
-  title: string;
-};
+export type todo = Partial<Tables<"todos">>;
 
 type shareTodoListProps = {
   todos?: todo[];
+  isShared: boolean;
 };
-const ShareTodoList = ({ todos }: shareTodoListProps) => {
+const ShareTodoList = ({ todos, isShared }: shareTodoListProps) => {
   console.log(todos);
   // const [todo, Settodo] = useState<todos[]>([
   //   {
@@ -38,7 +30,8 @@ const ShareTodoList = ({ todos }: shareTodoListProps) => {
         미완료 todo
       </span>
       <div className="flex flex-col space-y-2 mt-2 ml-5 mr-5">
-        {todos && todos.map((item: todo) => <TodoItem key={item.id} item={item} />)}
+        {todos &&
+          todos.map((item: todo) => <TodoItem key={item.id} item={item} isShared={isShared} />)}
       </div>
       <span className="py-8 ml-5 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         완료 todo
@@ -46,7 +39,12 @@ const ShareTodoList = ({ todos }: shareTodoListProps) => {
       <div className="flex flex-col space-y-2 mt-2 mr-5 ml-5">
         {todos &&
           todos.map((item: todo) => (
-            <TodoItem key={item.id} item={item} classname={"bg-neutral-100/[0.25]"} />
+            <TodoItem
+              key={item.id}
+              item={item}
+              isShared={isShared}
+              classname={"bg-neutral-100/[0.25]"}
+            />
           ))}
       </div>
     </div>
