@@ -82,7 +82,6 @@ const SideBar = () => {
               로그아웃
               <Image src="/icons/sidebar/ic-logout.png" alt="" width={17} height={17} />
             </button>
-            <TestComponent />
           </div>
         </div>
       </div>
