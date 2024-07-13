@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type Json =
   | string
   | number
@@ -5,6 +6,9 @@ export type Json =
   | null
   | { [key: string]: Json | undefined }
   | Json[]
+=======
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
 
 export type Database = {
   public: {
@@ -33,6 +37,7 @@ export type Database = {
         }
         Relationships: [
           {
+<<<<<<< HEAD
             foreignKeyName: "calendars_owner_id_fkey"
             columns: ["ownerId"]
             isOneToOne: false
@@ -41,6 +46,16 @@ export type Database = {
           },
         ]
       }
+=======
+            foreignKeyName: "calendars_owner_id_fkey";
+            columns: ["ownerId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
       comments: {
         Row: {
           calendarId: string
@@ -72,6 +87,7 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+<<<<<<< HEAD
             foreignKeyName: "comments_user_id_fkey"
             columns: ["userId"]
             isOneToOne: false
@@ -80,6 +96,16 @@ export type Database = {
           },
         ]
       }
+=======
+            foreignKeyName: "comments_user_id_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
       default_calendars: {
         Row: {
           createdAt: string
@@ -98,6 +124,7 @@ export type Database = {
         }
         Relationships: [
           {
+<<<<<<< HEAD
             foreignKeyName: "default_calendars_userId_fkey"
             columns: ["userId"]
             isOneToOne: false
@@ -106,6 +133,16 @@ export type Database = {
           },
         ]
       }
+=======
+            foreignKeyName: "default_calendars_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
       default_todos: {
         Row: {
           createdAt: string
@@ -139,6 +176,7 @@ export type Database = {
         }
         Relationships: [
           {
+<<<<<<< HEAD
             foreignKeyName: "default_todos_calendarId_fkey"
             columns: ["defaultCalendarId"]
             isOneToOne: false
@@ -190,6 +228,52 @@ export type Database = {
           },
         ]
       }
+=======
+            foreignKeyName: "default_todos_calendarId_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "default_calendars";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      participants: {
+        Row: {
+          calendarId: string;
+          createdAt: string;
+          id: string;
+          userId: string;
+        };
+        Insert: {
+          calendarId: string;
+          createdAt?: string;
+          id?: string;
+          userId: string;
+        };
+        Update: {
+          calendarId?: string;
+          createdAt?: string;
+          id?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "participants_calendar_id_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "participants_user_id_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
       todos: {
         Row: {
           calendarId: string
@@ -229,6 +313,7 @@ export type Database = {
         }
         Relationships: [
           {
+<<<<<<< HEAD
             foreignKeyName: "todos_calendar_id_fkey"
             columns: ["calendarId"]
             isOneToOne: false
@@ -244,6 +329,16 @@ export type Database = {
           },
         ]
       }
+=======
+            foreignKeyName: "todos_calendar_id_fkey";
+            columns: ["calendarId"];
+            isOneToOne: false;
+            referencedRelation: "calendars";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
       users: {
         Row: {
           email: string
@@ -265,6 +360,7 @@ export type Database = {
         }
         Relationships: [
           {
+<<<<<<< HEAD
             foreignKeyName: "users_id_fkey"
             columns: ["id"]
             isOneToOne: true
@@ -274,6 +370,17 @@ export type Database = {
         ]
       }
     }
+=======
+            foreignKeyName: "users_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+    };
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
     Views: {
       [_ in never]: never
     }
@@ -306,6 +413,7 @@ export type Tables<
     }
     ? R
     : never
+<<<<<<< HEAD
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
         PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
@@ -314,12 +422,17 @@ export type Tables<
       }
       ? R
       : never
+=======
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+  ? (PublicSchema["Tables"] & PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R;
+    }
+    ? R
+>>>>>>> 605beda19af2e998c1a696daf301ec42d645f8a3
     : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  PublicTableNameOrOptions extends keyof PublicSchema["Tables"] | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
@@ -338,9 +451,7 @@ export type TablesInsert<
     : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof PublicSchema["Tables"]
-    | { schema: keyof Database },
+  PublicTableNameOrOptions extends keyof PublicSchema["Tables"] | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
@@ -359,9 +470,7 @@ export type TablesUpdate<
     : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof PublicSchema["Enums"]
-    | { schema: keyof Database },
+  PublicEnumNameOrOptions extends keyof PublicSchema["Enums"] | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
