@@ -8,7 +8,7 @@ import { Tables } from "@/types/supabase";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useModal } from "@/services/modal/modal.context";
 
-type newTodo = Partial<Tables<"todos">>;
+export type newTodo = Partial<Tables<"todos">>;
 const initialState = {
   title: "",
   description: "",

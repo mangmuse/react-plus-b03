@@ -37,6 +37,37 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(";ㅅ;", { status: 500 });
 }
 
+export async function PATCH(req: NextRequest) {
+  if (req.method === "PATCH") {
+    const supabase = createClient();
+    const { searchParams } = new URL(req.url);
+    const todoId = searchParams.get("todoId");
+
+    const updatedTodo = await req.json();
+
+    if (todoId && updatedTodo) {
+      console.log(updatedTodo);
+      console.log(
+        "이거는 업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두",
+      );
+      const { data, error } = await supabase
+        .from("default_todos")
+        .update(updatedTodo)
+        .eq("id", todoId)
+        .select()
+        .single();
+
+      if (error) {
+        console.log(error);
+        return NextResponse.json({ error: "업데이트 실패" });
+      }
+
+      return NextResponse.json({ data });
+    }
+    return NextResponse.json({ error: ";ㅅ;" }, { status: 500 });
+  }
+}
+
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
     const supabase = createClient();

@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import TodoItem from "../TodoItem";
 import { Tables } from "@/types/supabase";
-
-export type todo = Partial<Tables<"todos">>;
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 
 type shareTodoListProps = {
-  todos?: todo[];
+  todos?: Ttodo[] | TDefaultTodo[];
   isShared: boolean;
 };
 const ShareTodoList = ({ todos, isShared }: shareTodoListProps) => {
@@ -30,15 +30,14 @@ const ShareTodoList = ({ todos, isShared }: shareTodoListProps) => {
         미완료 todo
       </span>
       <div className="flex flex-col space-y-2 mt-2 ml-5 mr-5">
-        {todos &&
-          todos.map((item: todo) => <TodoItem key={item.id} item={item} isShared={isShared} />)}
+        {todos && todos.map((item) => <TodoItem key={item.id} item={item} isShared={isShared} />)}
       </div>
       <span className="py-8 ml-5 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         완료 todo
       </span>
       <div className="flex flex-col space-y-2 mt-2 mr-5 ml-5">
         {todos &&
-          todos.map((item: todo) => (
+          todos.map((item) => (
             <TodoItem
               key={item.id}
               item={item}

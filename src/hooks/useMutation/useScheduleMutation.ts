@@ -60,7 +60,45 @@ const useScheduleMutation = () => {
       return res.json();
     },
     onSuccess: (data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["default_todo"] });
+      queryClient.invalidateQueries({ queryKey: ["default_todos"] });
+    },
+  });
+
+  const { mutateAsync: updateTodo } = useMutation({
+    mutationFn: async (todo: Partial<Tables<"todos">>) => {
+      const res = await fetch(`${BASE_URL}/api/todo?todoId=${todo.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      if (!res.ok) {
+        throw new Error("Todo 수정 실패");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
+  const { mutateAsync: updateDefaultTodo } = useMutation({
+    mutationFn: async (todo: Partial<Tables<"todos">>) => {
+      const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      if (!res.ok) {
+        throw new Error("defaultTodo 수정 실패");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
 
@@ -98,10 +136,18 @@ const useScheduleMutation = () => {
       return res.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["default_todo"] });
+      queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
-  return { createCalendar, addTodo, addDefaultTodo, deleteTodo, deleteDefaultTodo };
+  return {
+    createCalendar,
+    addTodo,
+    addDefaultTodo,
+    updateTodo,
+    updateDefaultTodo,
+    deleteTodo,
+    deleteDefaultTodo,
+  };
 };
 
 export default useScheduleMutation;

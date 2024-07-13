@@ -5,9 +5,12 @@ import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
 import ModifyModal from "@/components/Modal/ModifyModal";
 import useTodoStore, { todo } from "@/store/useTodoStore";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 
 interface propItem {
-  item: todo;
+  // item: Ttodo | TDefaultTodo;
+  item: any; // TODOTODO
   isShared?: boolean;
   classname?: string;
 }
@@ -32,7 +35,7 @@ const TodoItem = ({ item, classname, isShared }: propItem) => {
       >
         <div className="flex flex-col">
           {isShared && (
-            <div className="text-xs font-medium text-zinc-900/[0.5]">{item.calendarId}</div>
+            <div className="text-xs font-medium text-zinc-900/[0.5]">{item.nickname}</div>
           )}
           <div className="flex gap-5 items-center">
             <div className="text-base font-bold text-[#1c1d22]">{item.title}</div>
@@ -54,9 +57,11 @@ const TodoItem = ({ item, classname, isShared }: propItem) => {
           </div>
         </div>
         <div className="absolute top-3 right-3 flex space-x-2">
-          <button className="text-xs font-medium">
-            <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
-          </button>
+          {!isShared && (
+            <button className="text-xs font-medium">
+              <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+            </button>
+          )}
           <div className="h-5 w-7 flex flex-col items-center">
             <button onClick={handleOpenModal}>
               <Image src="/Ellipse.png" alt="더보기" width={20} height={20} />
