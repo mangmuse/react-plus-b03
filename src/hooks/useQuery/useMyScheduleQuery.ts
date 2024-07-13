@@ -17,7 +17,7 @@ const useMyScheduleQuery = () => {
     error,
     isPending,
   } = useQuery<todo[], Error>({
-    queryKey: ["default_todo"],
+    queryKey: ["default_todos"],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/todos/my`);
 

@@ -54,9 +54,11 @@ const TodoItem = ({ item, classname, isShared }: propItem) => {
           </div>
         </div>
         <div className="absolute top-3 right-3 flex space-x-2">
-          <button className="text-xs font-medium">
-            <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
-          </button>
+          {!isShared && (
+            <button className="text-xs font-medium">
+              <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+            </button>
+          )}
           <div className="h-5 w-7 flex flex-col items-center">
             <button onClick={handleOpenModal}>
               <Image src="/Ellipse.png" alt="더보기" width={20} height={20} />
