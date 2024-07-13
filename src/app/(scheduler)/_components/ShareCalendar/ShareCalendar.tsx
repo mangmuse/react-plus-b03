@@ -8,7 +8,7 @@ const ShareCalendar = ({ calendarId }: { calendarId: string }) => {
   const { data: comments, error, isPending } = useCommentQuery(calendarId);
 
   return (
-    <div className="flex flex-col w-[790px] ">
+    <div className="flex flex-col">
       <CalendarSection />
       <ContentInput calendarId={calendarId} />
       {comments?.map((comment) => (

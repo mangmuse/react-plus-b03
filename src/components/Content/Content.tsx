@@ -7,8 +7,7 @@ import { useUserStore } from "@/store/useasdStore";
 import { Tables } from "@/types/supabase";
 import { format } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
-import Input from "../Input";
+import { useEffect, useRef, useState } from "react";
 Image;
 
 interface ContentProps {
@@ -23,11 +22,18 @@ const Content = ({ comment, calendarId }: ContentProps) => {
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editedContent, setEditedContent] = useState(comment.content);
+  const InputRef = useRef<HTMLInputElement>(null);
 
   const deleteCommentMutation = useDeleteCommentMutation(calendarId);
   const updateCommentMutation = useUpdateCommentMutation(calendarId);
 
   const modal = useModal();
+
+  useEffect(() => {
+    if (isEditing && InputRef.current) {
+      InputRef.current.focus();
+    }
+  }, [isEditing]);
 
   const handleDeleteModal = () => {
     modal.open({
@@ -80,13 +86,13 @@ const Content = ({ comment, calendarId }: ContentProps) => {
   };
 
   return (
-    <div className="mt-5 w-full h-[120px] rounded-xl border-2 border-[rgb(28, 29, 34, 0.06)]">
+    <article className="mt-5 w-full h-[120px] rounded-xl border-2 border-[rgb(28, 29, 34, 0.06)]">
       <div className="flex items-center gap-7 pl-5 relative ">
-        <div className="w-[40px] h-[40px] border-2 rounded-3xl mt-4 relative">
+        <figure className="w-10 h-10 border-2 rounded-3xl mt-4 relative">
           {user.image_url && (
             <Image className="object-contain" src={user.image_url} alt="유저이미지" fill />
           )}
-        </div>
+        </figure>
 
         <div className="flex flex-col mt-4 w-full">
           <span className="text-sm font-medium text-zinc-900/[0.5]">{user.nickname}</span>
@@ -98,12 +104,13 @@ const Content = ({ comment, calendarId }: ContentProps) => {
           </button>
 
           {isEditing ? (
-            <div className="relative w-full mb-2">
-              <Input
+            <div className="relative w-full my-1">
+              <input
+                ref={InputRef}
                 type="text"
                 value={editedContent}
                 onChange={(e) => setEditedContent(e.target.value)}
-                className="font-bold w-[89%] border border-gray-300 rounded-lg p-2 pr-12"
+                className="font-bold w-[85%] border border-gray-300 rounded-lg p-2 pr-12"
               />
               <button
                 onClick={handleEditModal}
@@ -113,13 +120,13 @@ const Content = ({ comment, calendarId }: ContentProps) => {
               </button>
             </div>
           ) : (
-            <span className="font-bold m-2">{comment.content}</span>
+            <div className="font-bold py-3">{comment.content}</div>
           )}
 
-          <span className="text-[0.50rem] font-semibold">{formattedDate}</span>
+          <span className="text-[0.7rem] font-semibold text-gray-500">{formattedDate}</span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

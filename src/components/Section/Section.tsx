@@ -12,9 +12,15 @@ const Section = ({ calendarId }: SectionProps) => {
   console.log(todos);
   if (isPending) return <div>loading</div>;
   return (
-    <section className="flex bg-white gap-7 pl-6 pt-4 pb-5">
-      <ShareCalendar calendarId={calendarId} />
-      {todos && <ShareTodoList isShared={true} todos={todos} />}
+    <section className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+      <div className="lg:col-span-3">
+        <ShareCalendar calendarId={calendarId} />
+      </div>
+      {todos && (
+        <div className="lg:col-span-2">
+          <ShareTodoList isShared={true} todos={todos} />
+        </div>
+      )}
     </section>
   );
 };

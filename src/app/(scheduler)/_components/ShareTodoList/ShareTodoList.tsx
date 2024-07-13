@@ -1,9 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import TodoItem from "../TodoItem";
-import { Tables } from "@/types/supabase";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import TodoItem from "../TodoItem";
 
 type shareTodoListProps = {
   todos?: Ttodo[] | TDefaultTodo[];
@@ -11,21 +9,9 @@ type shareTodoListProps = {
 };
 const ShareTodoList = ({ todos, isShared }: shareTodoListProps) => {
   console.log(todos);
-  // const [todo, Settodo] = useState<todos[]>([
-  //   {
-  //     user: "강동석",
-  //     title: "제목",
-  //     content: "내용",
-  //   },
-  //   {
-  //     user: "강동석2",
-  //     title: "제목3",
-  //     content: "내용4",
-  //   },
-  // ]);
 
   return (
-    <div className="pt-14 flex flex-col w-[440px] h-full rounded-xl border-dashed border-2 border-[rgb(28, 29, 34, 0.08)]">
+    <div className="pt-14 flex flex-col w-full h-full rounded-xl border-dashed border-2 border-[rgb(28, 29, 34, 0.08)]">
       <span className="ml-5 pb-3 text-sm font-semibold leading-none text-zinc-900/[0.5]">
         미완료 todo
       </span>
