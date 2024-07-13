@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
-import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
+import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
 
 type SectionProps = {
@@ -14,7 +13,7 @@ const Section = ({ calendarId }: SectionProps) => {
   if (isPending) return <div>loading</div>;
   return (
     <section className="flex bg-white gap-7 pl-6 pt-4 pb-5">
-      <ShareCalendar />
+      <ShareCalendar calendarId={calendarId} />
       {todos && <ShareTodoList todos={todos} />}
     </section>
   );

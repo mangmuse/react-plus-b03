@@ -1,16 +1,19 @@
 import Content from "@/components/Content";
 import ContentInput from "@/components/ContentInput";
 
-import React from "react";
 import CalendarSection from "@/components/CalendarSection";
+import { useCommentQuery } from "@/hooks/useQuery/useCommentsQuery";
 
-const ShareCalendar = () => {
+const ShareCalendar = ({ calendarId }: { calendarId: string }) => {
+  const { data: comments, error, isPending } = useCommentQuery(calendarId);
+
   return (
     <div className="flex flex-col w-[790px] ">
       <CalendarSection />
-      <ContentInput />
-      <Content />
-      <Content />
+      <ContentInput calendarId={calendarId} />
+      {comments?.map((comment) => (
+        <Content key={comment.id} comment={comment} calendarId={calendarId} />
+      ))}
     </div>
   );
 };
