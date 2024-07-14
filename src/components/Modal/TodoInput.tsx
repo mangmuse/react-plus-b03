@@ -8,7 +8,7 @@ import { Tables } from "@/types/supabase";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useModal } from "@/services/modal/modal.context";
 import { TTodoForm } from "@/types/scheduler.type";
-import { validateTodo } from "@/utils/\btodoValidation";
+import { validateTodo } from "@/utils/todoValidation";
 
 const getTodayDate = (): string => {
   return new Date().toISOString().split("T")[0];
