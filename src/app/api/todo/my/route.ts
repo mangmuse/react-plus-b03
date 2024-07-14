@@ -1,9 +1,38 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
-export async function POST(req: NextRequest) {
-  // 캘린더id, todo내용 받아오기
+export async function GET(req: NextRequest) {
+  console.log("myTODO GET 요청");
   const supabase = createClient();
+  const { searchParams } = new URL(req.url);
+  console.log(searchParams);
+  const todoId = searchParams.get("todoId");
+
+  if (!todoId) {
+    return NextResponse.json({ error: "todoId가 없습니다" });
+  }
+  console.log(todoId);
+  console.log("asdsadqwdqwgdiuqwgdqwgui");
+  const { data: todo, error } = await supabase
+    .from("default_todos")
+    .select("*")
+    .eq("id", todoId)
+    .single();
+
+  if (!error) {
+    console.log("이위에 투두이위에 투두이위에 투두이위에 투두이위에 투두");
+    console.log(todo);
+    return NextResponse.json({ todo });
+  }
+
+  return NextResponse.json({ error: "todo를 가져오지 못했습니다!!" });
+}
+
+export async function POST(req: NextRequest) {
+  console.log("myTODO PSOT 요청");
+
+  const supabase = createClient();
+  const reqTodo = await req.json();
 
   const {
     data: { user },
@@ -21,23 +50,70 @@ export async function POST(req: NextRequest) {
       return NextResponse.json("myCalendar fetch 실패");
     }
     if (myCalendarIds) {
-      const calendarId = myCalendarIds[0].id;
+      const defaultCalendarId = myCalendarIds[0].id;
       const newTodo = {
-        calendarId,
-        title: "디폴트테스트테스트",
-        description: "디폴트테스트디스크립션",
-        startDate: "2024-07-12",
-        endDate: "2024-07-14",
+        defaultCalendarId,
+        userId,
+        ...reqTodo,
       };
 
-      const { status, statusText } = await supabase
-        .from("default_todos")
-        .insert(newTodo)
-        .single();
+      const { status, statusText } = await supabase.from("default_todos").insert(newTodo).single();
 
       return NextResponse.json({ status, statusText });
     }
   }
 
   return NextResponse.json(";ㅅ;", { status: 500 });
+}
+
+export async function PATCH(req: NextRequest) {
+  if (req.method === "PATCH") {
+    console.log("myTODO PATch 요청");
+    const supabase = createClient();
+    const { searchParams } = new URL(req.url);
+    const todoId = searchParams.get("todoId");
+
+    const updatedTodo = await req.json();
+
+    if (todoId && updatedTodo) {
+      const { data, error } = await supabase
+        .from("default_todos")
+        .update(updatedTodo)
+        .eq("id", todoId)
+        .select()
+        .single();
+
+      if (error) {
+        console.log(error);
+        return NextResponse.json({ error: "업데이트 실패" });
+      }
+
+      return NextResponse.json({ data });
+    }
+    return NextResponse.json({ error: ";ㅅ;" }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  if (req.method === "DELETE") {
+    console.log("myTODO DELETE 요청");
+    const supabase = createClient();
+
+    try {
+      const reqId = await req.json();
+      const todoId = reqId.id;
+
+      console.log();
+      console.log("이거투두아이디이거투두아이디이거투두아이디이거투두아이디이거투두아이디");
+
+      const { data, error } = await supabase.from("default_todos").delete().eq("id", todoId);
+      if (error) {
+        console.log(error);
+      }
+      console.log("asd");
+      return NextResponse.json({ message: "성공적으로 삭제되었습니다." });
+    } catch (e) {
+      return NextResponse.json({ error: "삭제에 실패했습니다" }, { status: 500 });
+    }
+  }
 }

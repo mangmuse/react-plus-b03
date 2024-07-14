@@ -38,10 +38,10 @@ export async function updateSession(request: NextRequest) {
     url.pathname = "/auth/login";
     return NextResponse.redirect(url);
   }
+  
   if (user && request.nextUrl.pathname === "/") {
     const url = request.nextUrl.clone();
     url.pathname = "/todos/today";
-    console.log(url);
     return NextResponse.redirect(url);
   }
 

@@ -8,8 +8,7 @@ const ImportantTodosPage = () => {
     <Page title="IMPORTANT">
       <TodoDate />
 
-      <TodoList />
-      <Calendar selectedDate={new Date()} />
+      <TodoList isImportantPage={true} />
     </Page>
   );
 };

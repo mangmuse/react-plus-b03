@@ -5,8 +5,8 @@ const TestComponent = () => {
     <button
       onClick={async () => {
         {
-          const res = await fetch("http://localhost:3000/api/todos", {
-            method: "GET",
+          const res = await fetch("http://localhost:3000/api/todo", {
+            method: "POST",
           });
           if (res) {
             const data = await res.json();

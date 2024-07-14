@@ -3,13 +3,17 @@ import React from "react";
 
 const EditMenuBox = () => {
   const modal = useModal();
-  const handledeleteModal = () => {
+
+  const handledeleteModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+
     modal.open({
       type: "Edit",
       content: "삭제 하시겠습니까?",
     });
   };
-  const handleModifyModal = () => {
+  const handleModifyModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
     modal.open({
       type: "Modify",
       content: "",
@@ -17,10 +21,7 @@ const EditMenuBox = () => {
   };
   return (
     <div className="flex flex-col px-1 py-1  border-2">
-      <button
-        onClick={handleModifyModal}
-        className="border-b-2 text-xs font-bold w-[30px]"
-      >
+      <button onClick={handleModifyModal} className="border-b-2 text-xs font-bold w-[30px]">
         수정
       </button>
       <button onClick={handledeleteModal} className="text-xs font-bold ">

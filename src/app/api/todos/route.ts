@@ -1,22 +1,53 @@
+import { getBetweenDates } from "@/utils/formatSchedules";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
+
 export async function GET(req: NextRequest) {
-  // 캘린더 Id 받아오기
+  const { searchParams } = new URL(req.url);
+  const calendarId = searchParams.get("calendarId");
   const supabase = createClient();
+  console.log(calendarId);
 
-  const calendarId = "1afbfb2c-850e-49a5-bc83-558bd3e5f68e";
-  const { data: todos, error: todoError } = await supabase
-    .from("todos")
-    .select("*")
-    .eq("calendarId", calendarId);
+  if (calendarId) {
+    const { data: todos, error: todoError } = await supabase
+      .from("todos")
+      .select("*")
+      .eq("calendarId", calendarId);
 
-  if (todoError) NextResponse.json("fetch 실패");
+    if (todoError) return NextResponse.json("fetch 실패");
 
-  if (todos) {
-    console.log(todos);
-    return NextResponse.json({ todos });
+    if (todos) {
+      console.log(todos);
+      console.log("asd");
+
+      const resTodos = await Promise.all(
+        todos.map(async (todo) => {
+          const { data: user, error: userError } = await supabase
+            .from("users")
+            .select("nickname")
+            .eq("id", todo.userId!)
+            .single();
+
+          if (userError) {
+            console.error(`유저를 찾을 수 없습니다 ${todo.userId}`);
+            return {
+              ...todo,
+              dateArray: getBetweenDates(todo.startDate!, todo.endDate!),
+              nickname: null,
+            };
+          }
+
+          return {
+            ...todo,
+            dateArray: getBetweenDates(todo.startDate!, todo.endDate!),
+            nickname: user?.nickname || null,
+          };
+        }),
+      );
+
+      return NextResponse.json({ todos: resTodos });
+    }
   }
 
-  //
   return NextResponse.json(";ㅅ;", { status: 500 });
 }

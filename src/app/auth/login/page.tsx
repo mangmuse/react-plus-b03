@@ -38,7 +38,6 @@ export default function LoginPage() {
         },
         body: JSON.stringify({email, password}),
       });
-      console.log(response);
 
       if (!response.ok) {
         const data = await response.json();
@@ -46,18 +45,16 @@ export default function LoginPage() {
       }
    
       const { data: userData, error: userError } = await getUserData(email);
-      console.log(userData, userError);
 
           if (userError) {
             alert("사용자 정보를 가져오는 데 실패했습니다.");
             console.error("userError:", userError);
           } else {
             // Zustand 상태 업데이트
-            setUser(userData.id, userData.email, userData.nickname ?? "");
-            alert("로그인 성공");
+            setUser(userData.id, userData.email, userData.nickname ?? "", userData.image_url ?? "");
+            
           }
         
-      console.log("login");
       router.push("/todos/today");
     } catch (error) {
       console.error("Login error:", error);
@@ -66,42 +63,41 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <form
-        onSubmit={onSubmit}
-        className="flex flex-col gap-y-2 border-2 w-96 items-center p-4 bg-white rounded shadow-md">
-        <div className="w-full flex items-center justify-between mb-4">
-          <label htmlFor="email" className="mr-2">이메일</label>
-          <input
-            ref={emailRef}
-            type="email"
-            id="email"
-            placeholder="이메일을 입력하세요."
-            className="border-2 border-gray-300 rounded-md p-1 w-full"
-          />
-        </div>
-        <div className="w-full flex items-center justify-between mb-4">
-          <label htmlFor="password" className="mr-2">비밀번호</label>
-          <input
-            ref={passwordRef}
-            type="password"
-            id="password"
-            placeholder="비밀번호를 입력하세요."
-            className="border-2 border-gray-300 rounded-md p-1 w-full"
-          />
-        </div>
-        <div className="w-full p-4 flex flex-col gap-y-2">
-          <button
-            className="w-full bg-blue-500 text-white p-2 rounded-md">로그인</button>
-          <Link href="/auth/signup">
-            <button
-              type="button"
-              className="w-full bg-black text-white p-2 rounded-md">
-              회원가입 가기
-            </button>
-          </Link>
-        </div>
-      </form>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 px-4">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">로그인</h1>
+      <div className=" p-8 rounded-lg shadow-lg w-full max-w-md">
+        <form onSubmit={onSubmit} className="space-y-6">
+          <div className="flex flex-col">
+            <label htmlFor="email" className="mb-2 text-gray-700 font-semibold">이메일</label>
+            <input
+              ref={emailRef}
+              type="email"
+              id="email"
+              placeholder="이메일을 입력하세요."
+              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="password" className="mb-2 text-gray-700 font-semibold">비밀번호</label>
+            <input
+              ref={passwordRef}
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+              className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <button type="submit" className="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">로그인</button>
+        </form>
+        <div className="mt-6 text-center">
+        아직 계정이 없으신가요?
+        <Link href="/auth/signup" className="underline text-blue-500 hover:text-blue-700 ml-2">
+           회원가입하러 가기
+        </Link>
+      </div>
+      </div>
     </div>
   );
-}
+};
+
+
