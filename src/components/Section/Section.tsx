@@ -64,7 +64,7 @@ const Section = ({ calendarId }: SectionProps) => {
         </div>
         {todos && (
           <div className="lg:col-span-2">
-            <ShareTodoList isShared={true} todos={sortedTodo} />
+            {/* <ShareTodoList isShared={true} todos={sortedTodo} /> */}
           </div>
         )}
       </section>
