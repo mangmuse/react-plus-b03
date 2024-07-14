@@ -24,11 +24,11 @@ const SideBar = () => {
           </p>
           <div className="ml-4">
             <p className="flex flex-col">
-              <p className="font-semibold text-center">유저 정보</p>
               <p className="flex items-center gap-1">
                 <Image src="/icons/sidebar/ic-user-page.png" alt="" width={17} height={10} />
                 <Link href="">마이페이지</Link>
               </p>
+              <p className="font-semibold text-center">유저 정보</p>
             </p>
           </div>
         </div>
