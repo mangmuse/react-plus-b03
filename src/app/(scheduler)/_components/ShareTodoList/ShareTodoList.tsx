@@ -1,10 +1,10 @@
 "use client";
 
-import TodoItem from "../TodoItem";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useDateStore from "@/store/useDateStore";
-import { format } from "date-fns/format";
 import { TDefaultTodo } from "@/types/scheduler.type";
+import { format } from "date-fns/format";
+import TodoItem from "../TodoItem";
 
 export type PropItem = {
   todos?: Ttodo[] | TDefaultTodo[];
@@ -35,14 +35,7 @@ const ShareTodoList = ({ todos, isShared }: PropItem) => {
       </span>
       <div className="flex flex-col space-y-2 mt-2 mr-5 ml-5">
         {completedTodos &&
-          completedTodos.map((item) => (
-            <TodoItem
-              key={item.id}
-              item={item}
-              isShared={isShared}
-              classname={"bg-neutral-100/[0.25]"}
-            />
-          ))}
+          completedTodos.map((item) => <TodoItem key={item.id} item={item} isShared={isShared} />)}
       </div>
     </div>
   );
