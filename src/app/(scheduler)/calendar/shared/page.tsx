@@ -15,7 +15,6 @@ const SharedCalendarPage = () => {
   const handleOpenModal = () => {
     modal.open({ type: "form", content: "이건 확인 모달" });
   };
-  const sortedCalendars = calendars && sortByCreatedAt<TCalendar>(calendars);
 
   if (isPending) {
     return <div>Loading...</div>;

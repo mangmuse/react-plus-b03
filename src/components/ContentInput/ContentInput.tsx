@@ -19,7 +19,7 @@ const ContentInput = ({ calendarId }: CommentsProps) => {
 
   const userId = useUserStore((state) => state.id);
   const userNickname = useUserStore((state) => state.nickname);
-  const userImage = null; // 아직 없던뎅?
+  const userImage = null; // 아직 없던뎅? ;ㅅ;
 
   const { data: comments } = useCommentQuery(calendarId);
   const commentCount = comments ? comments.length : 0;

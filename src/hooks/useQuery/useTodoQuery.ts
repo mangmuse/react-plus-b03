@@ -8,18 +8,17 @@ export type Ttodo = Tables<"todos"> & {
   dateArray: string[];
   nickname: string;
 };
-
 type Ttodos = {
   todos: Ttodo[];
 };
 
-const useMyTodoQuery = (todoId: string) => {
+const useTodoQuery = (todoId: string) => {
   const {
     data: todo,
     error,
     isPending,
   } = useQuery<Ttodos, Error>({
-    queryKey: ["todos", { todoId }],
+    queryKey: ["todo", { todoId }],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/todo?todoId=${todoId}`, {
         headers: {
@@ -38,4 +37,4 @@ const useMyTodoQuery = (todoId: string) => {
   return { todo, error, isPending };
 };
 
-export default useMyTodoQuery;
+export default useTodoQuery;

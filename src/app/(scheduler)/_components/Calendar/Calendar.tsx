@@ -1,8 +1,8 @@
 "use client";
 
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useDateStore from "@/store/useDateStore";
+import { TDefaultTodo } from "@/types/scheduler.type";
 import {
   addDays,
   addMonths,
@@ -29,7 +29,7 @@ const Calendar = ({ initialDate, todos }: CalendarProps) => {
   const allDatesSet = new Set<string>();
   if (todos) {
     todos.forEach((todo) => {
-      todo.dateArray.forEach((date) => allDatesSet.add(date));
+      todo.dateArray?.forEach((date) => allDatesSet.add(date));
     });
   }
 

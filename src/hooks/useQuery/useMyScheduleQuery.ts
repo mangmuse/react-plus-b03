@@ -3,13 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
 import { useUserStore } from "@/store/useasdStore";
 import { Tables } from "@/types/supabase";
-
-export type TDefaultTodo = Tables<"default_todos"> & {
-  dateArray: string[];
-};
+import { TDefaultTodo, TDefaultTodoRes } from "@/types/scheduler.type";
 
 type TdefaultTodos = {
-  todos: TDefaultTodo[];
+  todos: TDefaultTodoRes[];
 };
 
 const useMyScheduleQuery = () => {
