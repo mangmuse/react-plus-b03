@@ -1,6 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
+export async function GET(req: NextRequest) {
+  const supabase = createClient();
+  const { searchParams } = new URL(req.url);
+  const todoId = searchParams.get("todoId");
+
+  if (!todoId) {
+    return NextResponse.json({ error: "todoId가 없습니다" });
+  }
+  const { data: todo, error } = await supabase
+    .from("default_todos")
+    .select("*")
+    .eq("id", todoId)
+    .single();
+
+  if (!error) {
+    console.log("이위에 투두이위에 투두이위에 투두이위에 투두이위에 투두");
+    console.log(todo);
+    return NextResponse.json({ todo });
+  }
+
+  return NextResponse.json({ error: "todo를 가져오지 못했습니다!!" });
+}
+
 export async function POST(req: NextRequest) {
   const supabase = createClient();
   const reqTodo = await req.json();
@@ -46,10 +69,6 @@ export async function PATCH(req: NextRequest) {
     const updatedTodo = await req.json();
 
     if (todoId && updatedTodo) {
-      console.log(updatedTodo);
-      console.log(
-        "이거는 업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두",
-      );
       const { data, error } = await supabase
         .from("default_todos")
         .update(updatedTodo)

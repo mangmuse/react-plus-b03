@@ -4,8 +4,6 @@ import TestComponent from "@/components/TestComponent";
 import Link from "next/link";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 
-interface TodayCountProps {}
-
 const SideBar = () => {
   const { todos, isPending, error } = useMyScheduleQuery();
 
@@ -23,6 +21,7 @@ const SideBar = () => {
             />
           </p>
           <div className="ml-4">
+
             <ul className="flex flex-col">
               <li className="flex items-center gap-1">
                 <Image src="/icons/sidebar/ic-user-page.png" alt="" width={17} height={10} />
@@ -30,6 +29,7 @@ const SideBar = () => {
               </li>
               <li className="font-semibold text-center">유저 정보</li>
             </ul>
+
           </div>
         </div>
         <div className="mt-6 ml-7">

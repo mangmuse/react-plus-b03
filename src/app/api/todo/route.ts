@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import useTodoQuery from "@/hooks/useQuery/useTodoQuery";
+import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 
 export async function GET(req: NextRequest) {
   const supabase = createClient();
@@ -55,9 +55,8 @@ export async function PATCH(req: NextRequest) {
     const updatedTodo = await req.json();
 
     if (todoId && updatedTodo) {
-      console.log(updatedTodo);
       console.log(
-        "이거는 업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두업데이티드두",
+        "패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행",
       );
       const { data, error } = await supabase
         .from("todos")
@@ -70,7 +69,10 @@ export async function PATCH(req: NextRequest) {
         console.log(error);
         return NextResponse.json({ error: "업데이트 실패" });
       }
-
+      console.log(data);
+      console.log(
+        "패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼",
+      );
       return NextResponse.json({ data });
     }
     return NextResponse.json({ error: ";ㅅ;" }, { status: 500 });

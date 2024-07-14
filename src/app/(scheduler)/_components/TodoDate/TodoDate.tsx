@@ -3,9 +3,11 @@
 import { addDays, subDays } from "date-fns";
 import { useState } from "react";
 import DateSelector from "../DateSelector";
+import useDateStore from "@/store/useDateStore";
 
 const TodoDate = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { selectedDate, setSelectedDate } = useDateStore();
+  // const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handlePrevDay = () => {
     setSelectedDate((prevDate) => subDays(prevDate, 1));
@@ -17,11 +19,7 @@ const TodoDate = () => {
 
   return (
     <div>
-      <DateSelector
-        selectedDate={selectedDate}
-        onPrev={handlePrevDay}
-        onNext={handleNextDay}
-      />
+      <DateSelector selectedDate={selectedDate} onPrev={handlePrevDay} onNext={handleNextDay} />
     </div>
   );
 };
