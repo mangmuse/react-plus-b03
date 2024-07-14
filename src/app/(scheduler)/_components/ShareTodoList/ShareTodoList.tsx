@@ -1,8 +1,9 @@
 "use client";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+
 import TodoItem from "../TodoItem";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 
 export type PropItem = {
   todos?: Ttodo[] | TDefaultTodo[];

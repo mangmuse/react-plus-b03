@@ -2,13 +2,14 @@ import Page from "@/components/Page";
 import Calendar from "../../_components/Calendar";
 import TodoDate from "../../_components/TodoDate/TodoDate";
 import TodoList from "../../_components/TodoList";
+import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 
 const ImportantTodosPage = () => {
   return (
     <Page title="IMPORTANT">
       <TodoDate />
 
-      <TodoList />
+      <TodoList isImportantPage={true} />
       <Calendar selectedDate={new Date()} />
     </Page>
   );

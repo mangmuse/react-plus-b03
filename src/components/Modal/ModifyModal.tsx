@@ -7,7 +7,7 @@ import { Tables } from "@/types/supabase";
 import { useModal } from "@/services/modal/modal.context";
 import { newTodo } from "./TodoInput";
 import { useParams } from "next/navigation";
-import useTodoQuery from "@/hooks/useQuery/useTodoQuery";
+import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 

@@ -4,13 +4,15 @@ import TodoBlock from "../TodoBlock";
 import useMyScheduleQuery, { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
 
-const TodoList = () => {
+const TodoList = ({ isImportantPage }: { isImportantPage?: boolean }) => {
   const { todos, error, isPending } = useMyScheduleQuery();
-  const sortedTodo = todos && sortByCreatedAt<TDefaultTodo>(todos);
-  console.log(sortedTodo);
+  const filteredTodos =
+    todos && (isImportantPage ? todos.filter((todo) => todo.isImportant) : todos);
+  const sortedTodos = filteredTodos && sortByCreatedAt<TDefaultTodo>(filteredTodos);
 
-  const pendingTodos = sortedTodo?.filter((todo) => !todo.isDone) || [];
-  const completedTodos = sortedTodo?.filter((todo) => todo.isDone) || [];
+  console.log(sortedTodos);
+  const pendingTodos = sortedTodos?.filter((todo) => !todo.isDone) || [];
+  const completedTodos = sortedTodos?.filter((todo) => todo.isDone) || [];
 
   return (
     <div className="flex flex-wrap justify-around gap-4">

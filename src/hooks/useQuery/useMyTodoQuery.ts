@@ -3,14 +3,10 @@ import { Tables } from "../../types/supabase";
 
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
-
-export type Ttodo = Tables<"todos"> & {
-  dateArray: string[];
-  nickname: string;
-};
+import { TDefaultTodo } from "./useMyScheduleQuery";
 
 type Ttodos = {
-  todos: Ttodo[];
+  todos: TDefaultTodo[];
 };
 
 const useMyTodoQuery = (todoId: string) => {
@@ -18,10 +14,10 @@ const useMyTodoQuery = (todoId: string) => {
     data: todo,
     error,
     isPending,
-  } = useQuery<Ttodos, Error>({
+  } = useQuery<TDefaultTodo, Error>({
     queryKey: ["default_todos", { todoId }],
     queryFn: async () => {
-      const res = await fetch(`${BASE_URL}/api/todo?todoId=${todoId}`, {
+      const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todoId}`, {
         headers: {
           "Content-type": "application/json",
         },
@@ -31,7 +27,6 @@ const useMyTodoQuery = (todoId: string) => {
         throw new Error("todo를 가져오지 못했습니다.");
       }
       const todo = await res.json();
-      console.log(todo);
       return todo.todo;
     },
   });

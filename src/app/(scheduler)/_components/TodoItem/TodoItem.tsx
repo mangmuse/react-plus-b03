@@ -3,11 +3,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
-import ModifyModal from "@/components/Modal/ModifyModal";
-import useTodoStore, { todo } from "@/store/useTodoStore";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useTodoStore from "@/store/useTodoStore";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 
 export type PropItem = {
   item: Ttodo | TDefaultTodo;
@@ -20,11 +19,12 @@ const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { setSelectedTodo, selectedTodo } = useTodoStore();
-  const { updateTodo, updateDefaultTodo } = useScheduleMutation();
+  const { updateTodo, updateDefaultTodo, updateIsImportant } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
   const modal = useModal();
-  const handleOpenModal = () => {
+  const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
     if (item) {
       setOpen(!open);
       setSelectedTodo(item);
@@ -37,6 +37,15 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
       isDone: !item.isDone,
     };
     isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
+  };
+
+  const handleChangeIsImportant: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.stopPropagation();
+    const updatedTodo = {
+      id: item.id,
+      isImportant: !item.isImportant,
+    };
+    updateIsImportant(updatedTodo);
   };
 
   if (item)
@@ -72,8 +81,15 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
         </div>
         <div className="absolute top-3 right-3 flex space-x-2">
           {!isShared && (
-            <button className="text-xs font-medium">
-              <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+            <button
+              onClick={handleChangeIsImportant}
+              className="hover:scale-105 text-xs font-medium"
+            >
+              {item.isImportant ? (
+                "중요한거"
+              ) : (
+                <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+              )}
             </button>
           )}
           <div className="h-5 w-7 flex flex-col items-center">

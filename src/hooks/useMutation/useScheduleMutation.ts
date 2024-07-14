@@ -1,5 +1,6 @@
 import { Tables } from "@/types/supabase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TDefaultTodo } from "../useQuery/useMyScheduleQuery";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -138,6 +139,52 @@ const useScheduleMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
+
+  const { mutate: updateIsImportant } = useMutation({
+    mutationFn: async (todo: Partial<Tables<"todos">>) => {
+      const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      if (!res.ok) {
+        throw new Error("defaultTodo 수정 실패");
+      }
+      return res.json();
+    },
+    onMutate: async (newTodo) => {
+      await queryClient.cancelQueries({ queryKey: ["default_todos", { todoId: newTodo.id }] });
+
+      const previousTodo = queryClient.getQueryData<TDefaultTodo>([
+        "default_todos",
+        { todoId: newTodo.id },
+      ]);
+
+      queryClient.setQueryData<TDefaultTodo>(
+        ["default_todos", { todoId: newTodo.id }],
+        (old: any) => {
+          if (old) {
+            return { ...old, isImportant: newTodo.isImportant };
+          }
+          return old;
+        },
+      );
+
+      return { previousTodo };
+    },
+
+    onError: (err, newTodo, context) => {
+      if (context?.previousTodo) {
+        queryClient.setQueryData(["default_todos", { todoId: newTodo.id }], context.previousTodo);
+      }
+    },
+    onSettled: (newTodo) => {
+      queryClient.invalidateQueries({ queryKey: ["default_todos", { todoId: newTodo?.id }] });
+    },
+  });
+
   return {
     createCalendar,
     addTodo,
@@ -146,6 +193,7 @@ const useScheduleMutation = () => {
     updateDefaultTodo,
     deleteTodo,
     deleteDefaultTodo,
+    updateIsImportant,
   };
 };
 

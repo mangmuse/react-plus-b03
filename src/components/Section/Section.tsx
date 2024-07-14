@@ -2,7 +2,7 @@
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
 import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import { Ttodo } from "@/hooks/useQuery/useMyTodoQuery";
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
 

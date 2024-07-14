@@ -2,7 +2,7 @@
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import dynamic from "next/dynamic";
 import TodoItem from "../TodoItem";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+
 interface TodoBlockProps {
   title: string;
   todos?: TDefaultTodo[] | null;

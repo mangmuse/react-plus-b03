@@ -114,6 +114,7 @@ export type Database = {
           endDate: string | null
           id: string
           isDone: boolean
+          isImportant: boolean
           startDate: string | null
           title: string
           userId: string | null
@@ -125,6 +126,7 @@ export type Database = {
           endDate?: string | null
           id?: string
           isDone?: boolean
+          isImportant?: boolean
           startDate?: string | null
           title: string
           userId?: string | null
@@ -136,6 +138,7 @@ export type Database = {
           endDate?: string | null
           id?: string
           isDone?: boolean
+          isImportant?: boolean
           startDate?: string | null
           title?: string
           userId?: string | null

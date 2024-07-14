@@ -4,7 +4,6 @@ import useMyScheduleQuery, { TDefaultTodo } from "@/hooks/useQuery/useMySchedule
 import Calendar from "../../_components/Calendar";
 import ShareTodoList from "../../_components/ShareTodoList";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 
 const MyCalendarPage = () => {
   const { todos, error, isPending } = useMyScheduleQuery();
