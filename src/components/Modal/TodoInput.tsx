@@ -11,7 +11,8 @@ import { TTodoForm } from "@/types/scheduler.type";
 import { validateTodo } from "@/utils/todoValidation";
 
 const getTodayDate = (): string => {
-  return new Date().toISOString().split("T")[0];
+  const today = new Date();
+  return today.toLocaleDateString("en-CA");
 };
 
 const initialState: TTodoForm = {
@@ -20,7 +21,7 @@ const initialState: TTodoForm = {
   startDate: getTodayDate(),
   endDate: getTodayDate(),
 };
-
+console.log(getTodayDate());
 const TodoInput = () => {
   const { addTodo, addDefaultTodo } = useScheduleMutation();
   const { close } = useModal();
@@ -57,8 +58,8 @@ const TodoInput = () => {
       alert("채우세요");
       return;
     }
-    isShared ? await addTodo(newTodo) : await addDefaultTodo(newTodo);
     close();
+    isShared ? await addTodo(newTodo) : await addDefaultTodo(newTodo);
   };
 
   return (

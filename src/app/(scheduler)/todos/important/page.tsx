@@ -9,7 +9,6 @@ const ImportantTodosPage = () => {
       <TodoDate />
 
       <TodoList isImportantPage={true} />
-      <Calendar initialDate={new Date()} />
     </Page>
   );
 };

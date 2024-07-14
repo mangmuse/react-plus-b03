@@ -2,9 +2,8 @@
 
 import Button from "@/components/Button";
 import Page from "@/components/Page";
-import useCalendarsQuery, { TCalendar } from "@/hooks/useQuery/useCalendarsQuery";
+import useCalendarsQuery from "@/hooks/useQuery/useCalendarsQuery";
 import { useModal } from "@/services/modal/modal.context";
-import { sortByCreatedAt } from "@/utils/formatSchedules";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,7 +14,6 @@ const SharedCalendarPage = () => {
   const handleOpenModal = () => {
     modal.open({ type: "form", content: "이건 확인 모달" });
   };
-  const sortedCalendars = calendars && sortByCreatedAt<TCalendar>(calendars);
 
   if (isPending) {
     return <div>Loading...</div>;
@@ -29,7 +27,7 @@ const SharedCalendarPage = () => {
           </Button>
         </div>
 
-        <div className="w-full h-full grid grid-cols-3 gap-4 mt-10">
+        <div className="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-4 mt-10">
           {calendars &&
             calendars.length > 0 &&
             calendars?.map((calendar, index) => (
@@ -50,7 +48,7 @@ const SharedCalendarPage = () => {
                     <span>{calendar.participantCount}</span>
                   </div>
                   <h5 className="text-lg font-semibold pb-2">{calendar.name}</h5>
-                  <p className="text-gray-600 text-sm mb-4">{calendar.description}</p>
+                  <p className="text-gray-600 text-sm mb-4 truncate">{calendar.description}</p>
                   <span>Owner: {calendar.ownerNickname.nickname}</span>
                 </div>
               </Link>

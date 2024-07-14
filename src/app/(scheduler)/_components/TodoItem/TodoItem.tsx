@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
 import useTodoStore from "@/store/useTodoStore";
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useMyTodoQuery, { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import { useParams } from "next/navigation";
+import { TDefaultTodo } from "@/types/scheduler.type";
+import filledStar from "/public/icons/filledStar.svg";
 
 export type PropItem = {
   item: Ttodo | TDefaultTodo;
@@ -18,11 +20,15 @@ const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
 };
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
+  const { calendarId } = useParams();
+  console.log(calendarId);
   const { setSelectedTodo, selectedTodo } = useTodoStore();
-  const { updateTodo, updateDefaultTodo, updateIsImportant } = useScheduleMutation();
+  const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
   const modal = useModal();
+
+  item && console.log(item, "asdasd");
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     if (item) {
@@ -36,7 +42,9 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
       id: item.id,
       isDone: !item.isDone,
     };
-    isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
+    isShared
+      ? typeof calendarId === "string" && (await updateTodo({ ...updatedTodo, calendarId }))
+      : await updateDefaultTodo(updatedTodo);
   };
 
   const handleChangeIsImportant: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -45,14 +53,14 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
       id: item.id,
       isImportant: !item.isImportant,
     };
-    updateIsImportant(updatedTodo);
+    updateDefaultTodo(updatedTodo);
   };
 
   if (item)
     return (
       <div
         onClick={handleClick}
-        className={`cursor-pointer relative p-5 rounded-xl bg-white hover:scale-105 ${
+        className={` relative p-5 rounded-xl bg-white hover:scale-105 ${
           classname ? classname : "border-zinc-900/[0.06] border-2"
         }`}
       >
@@ -83,10 +91,10 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
           {!isShared && (
             <button
               onClick={handleChangeIsImportant}
-              className="hover:scale-105 text-xs font-medium"
+              className="hover:scale-110 text-xs font-medium"
             >
               {item.isImportant ? (
-                "중요한거"
+                <Image src={filledStar} alt="즐겨찾기" width={20} height={20} />
               ) : (
                 <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
               )}

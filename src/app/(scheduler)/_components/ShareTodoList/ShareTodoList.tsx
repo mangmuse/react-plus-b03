@@ -1,11 +1,10 @@
 "use client";
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 
 import TodoItem from "../TodoItem";
-import { sortByCreatedAt } from "@/utils/formatSchedules";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useDateStore from "@/store/useDateStore";
 import { format } from "date-fns/format";
+import { TDefaultTodo } from "@/types/scheduler.type";
 
 export type PropItem = {
   todos?: Ttodo[] | TDefaultTodo[];
@@ -17,7 +16,7 @@ const ShareTodoList = ({ todos, isShared }: PropItem) => {
   const selectedDate = useDateStore((state) => state.selectedDate);
 
   const selectedDateString = selectedDate && format(selectedDate, "yyyy-MM-dd");
-  const selectedDateTodos = todos?.filter((todo) => todo.dateArray.includes(selectedDateString));
+  const selectedDateTodos = todos?.filter((todo) => todo.dateArray?.includes(selectedDateString));
 
   const pendingTodos = selectedDateTodos?.filter((todo) => !todo.isDone) || [];
   const completedTodos = selectedDateTodos?.filter((todo) => todo.isDone) || [];

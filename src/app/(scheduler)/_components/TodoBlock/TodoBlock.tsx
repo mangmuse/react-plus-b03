@@ -1,7 +1,7 @@
 "use client";
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import dynamic from "next/dynamic";
 import TodoItem from "../TodoItem";
+import { TDefaultTodoRes, TDefaultTodo } from "@/types/scheduler.type";
 
 interface TodoBlockProps {
   title: string;
