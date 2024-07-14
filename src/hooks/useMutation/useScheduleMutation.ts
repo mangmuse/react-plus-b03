@@ -73,18 +73,45 @@ const useScheduleMutation = () => {
         },
         body: JSON.stringify(todo),
       });
+
       if (!res.ok) {
         throw new Error("Todo 수정 실패");
       }
+
       return res.json();
     },
-    onSuccess: (todo) => {
-      queryClient.invalidateQueries({ queryKey: ["todos", { todoId: todo.id }] });
+    onMutate: async (newTodo) => {
+      const calendarId = newTodo?.calendarId;
+      console.log(calendarId);
+      await queryClient.cancelQueries({ queryKey: ["todos", { calendarId }] });
+
+      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["todos", { calendarId }]);
+
+      if (previousTodos) {
+        const updatedTodos = previousTodos.map((todo) =>
+          todo.id === newTodo.id ? { ...todo, ...newTodo } : todo,
+        );
+        queryClient.setQueryData<Tables<"todos">[]>(["todos", { calendarId }], updatedTodos);
+      }
+
+      return { previousTodos, calendarId };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousTodos) {
+        queryClient.setQueryData(
+          ["todos", { calendarId: context.calendarId }],
+          context.previousTodos,
+        );
+      }
+    },
+    onSettled: (newTodo, error, context) => {
+      console.log("onSettled triggered", newTodo);
+      queryClient.invalidateQueries({ queryKey: ["todos", { calendarId: context?.calendarId }] });
     },
   });
 
   const { mutateAsync: updateDefaultTodo } = useMutation({
-    mutationFn: async (todo: Partial<Tables<"todos">>) => {
+    mutationFn: async (todo: Partial<Tables<"default_todos">>) => {
       const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
         method: "PATCH",
         headers: {
@@ -97,7 +124,25 @@ const useScheduleMutation = () => {
       }
       return res.json();
     },
-    onSuccess: () => {
+    onMutate: async (newTodo) => {
+      await queryClient.cancelQueries({ queryKey: ["default_todos"] });
+
+      const previousTodos = queryClient.getQueryData<TDefaultTodo[]>(["default_todos"]);
+
+      if (previousTodos) {
+        queryClient.setQueryData(["default_todos"], (oldTodos: TDefaultTodo[]) =>
+          oldTodos.map((todo) => (todo.id === newTodo.id ? { ...todo, ...newTodo } : todo)),
+        );
+      }
+
+      return { previousTodos };
+    },
+    onError: (err, newTodo, context) => {
+      if (context?.previousTodos) {
+        queryClient.setQueryData(["default_todos"], context.previousTodos);
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
@@ -161,51 +206,6 @@ const useScheduleMutation = () => {
     },
   });
 
-  const { mutate: updateIsImportant } = useMutation({
-    mutationFn: async (todo: Partial<Tables<"todos">>) => {
-      const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(todo),
-      });
-      if (!res.ok) {
-        throw new Error("defaultTodo 수정 실패");
-      }
-      return res.json();
-    },
-    onMutate: async (newTodo) => {
-      await queryClient.cancelQueries({ queryKey: ["default_todos", { todoId: newTodo.id }] });
-
-      const previousTodo = queryClient.getQueryData<TDefaultTodo>([
-        "default_todos",
-        { todoId: newTodo.id },
-      ]);
-
-      queryClient.setQueryData<TDefaultTodo>(
-        ["default_todos", { todoId: newTodo.id }],
-        (old: any) => {
-          if (old) {
-            return { ...old, isImportant: newTodo.isImportant };
-          }
-          return old;
-        },
-      );
-
-      return { previousTodo };
-    },
-
-    onError: (err, newTodo, context) => {
-      if (context?.previousTodo) {
-        queryClient.setQueryData(["default_todos", { todoId: newTodo.id }], context.previousTodo);
-      }
-    },
-    onSettled: (newTodo) => {
-      queryClient.invalidateQueries({ queryKey: ["default_todos", { todoId: newTodo?.id }] });
-    },
-  });
-
   return {
     createCalendar,
     addTodo,
@@ -214,7 +214,6 @@ const useScheduleMutation = () => {
     updateDefaultTodo,
     deleteTodo,
     deleteDefaultTodo,
-    updateIsImportant,
     addParticipant,
   };
 };

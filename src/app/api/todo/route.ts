@@ -2,20 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 
-export async function GET(req: NextRequest) {
-  const supabase = createClient();
-  const { searchParams } = new URL(req.url);
-  const todoId = searchParams.get("todoId");
+// export async function GET(req: NextRequest) {
+//   const supabase = createClient();
+//   const { searchParams } = new URL(req.url);
+//   const todoId = searchParams.get("todoId");
+//   console.log("혹시 여기로 요청갔나?");
 
-  if (!todoId) {
-    return NextResponse.json({ error: "todoId가 없습니다" });
-  }
-  const { data: todo, error } = await supabase.from("todos").select("*").eq("id", todoId).single();
+//   if (!todoId) {
+//     return NextResponse.json({ error: "todoId가 없습니다" });
+//   }
+//   const { data: todo, error } = await supabase.from("todos").select("*").eq("id", todoId).single();
 
-  if (error) {
-    return NextResponse.json({ error: "todo를 가져오지 못했습니다" });
-  }
-}
+//   if (error) {
+//     return NextResponse.json({ error: "todo를 가져오지 못했습니다" });
+//   }
+// }
 
 export async function POST(req: NextRequest) {
   // 캘린더id, todo내용 받아오기

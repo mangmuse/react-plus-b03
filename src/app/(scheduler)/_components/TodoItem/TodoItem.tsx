@@ -6,7 +6,8 @@ import EditMenuBox from "@/components/Modal/EditMenuBox";
 import useTodoStore from "@/store/useTodoStore";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useMyTodoQuery, { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import { useParams } from "next/navigation";
 
 export type PropItem = {
   item: Ttodo | TDefaultTodo;
@@ -18,11 +19,16 @@ const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
 };
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
+  const { calendarId } = useParams();
+  console.log(calendarId);
   const { setSelectedTodo, selectedTodo } = useTodoStore();
-  const { updateTodo, updateDefaultTodo, updateIsImportant } = useScheduleMutation();
+  const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
+  console.log();
   const [open, setOpen] = useState(false);
   const modal = useModal();
+
+  item && console.log(item, "asdasd");
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     if (item) {
@@ -36,7 +42,9 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
       id: item.id,
       isDone: !item.isDone,
     };
-    isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
+    isShared
+      ? typeof calendarId === "string" && (await updateTodo({ ...updatedTodo, calendarId }))
+      : await updateDefaultTodo(updatedTodo);
   };
 
   const handleChangeIsImportant: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -45,7 +53,7 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
       id: item.id,
       isImportant: !item.isImportant,
     };
-    updateIsImportant(updatedTodo);
+    updateDefaultTodo(updatedTodo);
   };
 
   if (item)

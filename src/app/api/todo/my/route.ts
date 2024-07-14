@@ -4,11 +4,14 @@ import { createClient } from "@/utils/supabase/server";
 export async function GET(req: NextRequest) {
   const supabase = createClient();
   const { searchParams } = new URL(req.url);
+  console.log(searchParams);
   const todoId = searchParams.get("todoId");
 
   if (!todoId) {
     return NextResponse.json({ error: "todoId가 없습니다" });
   }
+  console.log(todoId);
+  console.log("asdsadqwdqwgdiuqwgdqwgui");
   const { data: todo, error } = await supabase
     .from("default_todos")
     .select("*")
