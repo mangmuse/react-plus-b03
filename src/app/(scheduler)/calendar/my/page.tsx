@@ -14,7 +14,7 @@ const MyCalendarPage = () => {
         <div className="lg:col-span-3">
           <div className="w-full rounded-2xl shadow-[5px_15px_20px_5px_rgba(150,150,150,0.1)]">
             <div className="border-t border-solid"></div>
-            <Calendar initialDate={new Date()} />
+            <Calendar todos={sortedTodos} initialDate={new Date()} />
           </div>
         </div>
         <div className="lg:col-span-2">

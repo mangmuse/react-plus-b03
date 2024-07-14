@@ -33,7 +33,7 @@ const Section = ({ calendarId }: SectionProps) => {
       <button onClick={handleAddParticipant}>공유버튼 어디갔어</button>
       <section className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="lg:col-span-3">
-          <ShareCalendar calendarId={calendarId} />
+          <ShareCalendar todos={todos} calendarId={calendarId} />
         </div>
         {todos && (
           <div className="lg:col-span-2">
