@@ -5,18 +5,17 @@ import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import useMyTodoQuery, { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { useParams } from "next/navigation";
-import { TDefaultTodo } from "@/types/scheduler.type";
+import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
 import filledStar from "/public/icons/filledStar.svg";
 
 export type PropItem = {
-  item: Ttodo | TDefaultTodo;
+  item: TTodo | TDefaultTodo;
   classname?: string;
   isShared: boolean;
 };
-const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
-  return (item as Ttodo).calendarId !== undefined;
+const isTtodo = (item: TTodo | TDefaultTodo): item is TTodo => {
+  return (item as TTodo).calendarId !== undefined;
 };
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {

@@ -4,7 +4,6 @@ import Input from "../Input";
 import Button from "../Button";
 import { useModal } from "@/services/modal/modal.context";
 import { useParams } from "next/navigation";
-import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { TTodoForm } from "@/types/scheduler.type";

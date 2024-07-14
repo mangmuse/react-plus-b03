@@ -3,7 +3,6 @@ import ContentInput from "@/components/ContentInput";
 
 import CalendarSection from "@/components/CalendarSection";
 import { useCommentQuery } from "@/hooks/useQuery/useCommentsQuery";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { TDefaultTodoRes } from "@/types/scheduler.type";
 
 const ShareCalendar = ({

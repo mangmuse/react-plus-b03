@@ -2,7 +2,6 @@
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
 import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
 import useDateStore from "@/store/useDateStore";
 import { sortByCreatedAt } from "@/utils/formatSchedules";

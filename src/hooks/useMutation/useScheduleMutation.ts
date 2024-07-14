@@ -7,44 +7,30 @@ import {
   TTodo,
   TTodoForm,
 } from "@/types/scheduler.type";
+import {
+  deleteDefaultTodo,
+  deleteTodo,
+  patchDefaultTodo,
+  patchTodo,
+  postCalendar,
+  postDefaultTodo,
+  postParticipant,
+  postTodo,
+} from "@/utils/api/schedule.api";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const useScheduleMutation = () => {
   const queryClient = useQueryClient();
-  const { mutateAsync: createCalendar } = useMutation({
-    mutationFn: async (newCalendar: TCalendarForm) => {
-      const res = await fetch(`${BASE_URL}/api/calendar`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(newCalendar),
-      });
-      if (!res.ok) {
-        throw new Error("캘린더 생성 실패");
-      }
-      return res.json();
-    },
+  const { mutateAsync: addCalendar } = useMutation({
+    mutationFn: (newCalendar: TCalendarForm) => postCalendar(newCalendar),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["calendars"] });
     },
   });
 
   const { mutateAsync: addTodo } = useMutation({
-    mutationFn: async (newTodo: TTodoForm) => {
-      const res = await fetch(`${BASE_URL}/api/todo`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(newTodo),
-      });
-      if (!res.ok) {
-        throw new Error("Todo 생성 실패");
-      }
-      return res.json();
-    },
+    mutationFn: (newTodo: TTodoForm) => postTodo(newTodo),
     onSuccess: (data, variables) => {
       const calendarId = variables.calendarId;
       queryClient.invalidateQueries({ queryKey: ["todos"] });
@@ -52,40 +38,14 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: addDefaultTodo } = useMutation({
-    mutationFn: async (newTodo: TTodoForm) => {
-      const res = await fetch(`${BASE_URL}/api/todo/my`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(newTodo),
-      });
-      if (!res.ok) {
-        throw new Error("Todo 생성 실패");
-      }
-      return res.json();
-    },
+    mutationFn: (newTodo: TTodoForm) => postDefaultTodo(newTodo),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });
 
   const { mutateAsync: updateTodo } = useMutation({
-    mutationFn: async (todo: TTodoForm) => {
-      const res = await fetch(`${BASE_URL}/api/todo?todoId=${todo.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(todo),
-      });
-
-      if (!res.ok) {
-        throw new Error("Todo 수정 실패");
-      }
-
-      return res.json();
-    },
+    mutationFn: (todo: TTodoForm) => patchTodo(todo),
     onMutate: async (newTodo) => {
       const calendarId = newTodo?.calendarId;
       console.log(calendarId);
@@ -117,19 +77,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: updateDefaultTodo } = useMutation({
-    mutationFn: async (todo: TDefaultTodo) => {
-      const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(todo),
-      });
-      if (!res.ok) {
-        throw new Error("defaultTodo 수정 실패");
-      }
-      return res.json();
-    },
+    mutationFn: (todo: TDefaultTodo) => patchDefaultTodo(todo),
     onMutate: async (newTodo) => {
       await queryClient.cancelQueries({ queryKey: ["default_todos"] });
 
@@ -153,20 +101,8 @@ const useScheduleMutation = () => {
     },
   });
 
-  const { mutateAsync: deleteTodo } = useMutation({
-    mutationFn: async (todoId: TTodoForm) => {
-      const res = await fetch(`${BASE_URL}/api/todo`, {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(todoId),
-      });
-      if (!res.ok) {
-        throw new Error("Todo 삭제 실패");
-      }
-      return res.json();
-    },
+  const { mutateAsync: removeTodo } = useMutation({
+    mutationFn: (todoId: TTodoForm) => deleteTodo(todoId),
     onMutate: async (toBeDeleted) => {
       const calendarId = toBeDeleted.calendarId;
 
@@ -207,20 +143,8 @@ const useScheduleMutation = () => {
     },
   });
 
-  const { mutateAsync: deleteDefaultTodo } = useMutation({
-    mutationFn: async (todoId: TTodoForm["id"]) => {
-      const res = await fetch(`${BASE_URL}/api/todo/my`, {
-        method: "DELETE",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({ id: todoId }),
-      });
-      if (!res.ok) {
-        throw new Error("Todo 삭제 실패");
-      }
-      return res.json();
-    },
+  const { mutateAsync: removeDefaultTodo } = useMutation({
+    mutationFn: (todoId: TTodoForm["id"]) => deleteDefaultTodo(todoId),
     onMutate: async (todoId) => {
       await queryClient.cancelQueries({ queryKey: ["default_todos"] });
 
@@ -241,34 +165,21 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: addParticipant } = useMutation({
-    mutationFn: async (newParticipant: { email: string; calendarId: string }) => {
-      const res = await fetch(`${BASE_URL}/api/calendar/participant`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(newParticipant),
-      });
-      if (!res.ok) {
-        res.status === 409
-          ? alert("이미 존재하는 사용자입니다.")
-          : alert("사용자를 추가하지 못했습니다.");
-      }
-      return await res.json();
-    },
+    mutationFn: (newParticipant: { email: string; calendarId: string }) =>
+      postParticipant(newParticipant),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["calendars"] });
     },
   });
 
   return {
-    createCalendar,
+    createCalendar: addCalendar,
     addTodo,
     addDefaultTodo,
     updateTodo,
     updateDefaultTodo,
-    deleteTodo,
-    deleteDefaultTodo,
+    removeTodo,
+    removeDefaultTodo,
     addParticipant,
   };
 };

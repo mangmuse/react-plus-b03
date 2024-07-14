@@ -1,5 +1,4 @@
 import Calendar from "@/app/(scheduler)/_components/Calendar";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { TDefaultTodoRes } from "@/types/scheduler.type";
 
 type CalendarSectionTypes = {

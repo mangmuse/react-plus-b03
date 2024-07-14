@@ -1,8 +1,7 @@
 "use client";
 
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useDateStore from "@/store/useDateStore";
-import { TDefaultTodo } from "@/types/scheduler.type";
+import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
 import {
   addDays,
   addMonths,
@@ -19,7 +18,7 @@ import { useState } from "react";
 
 type CalendarProps = {
   initialDate: Date;
-  todos?: Ttodo[] | TDefaultTodo[];
+  todos?: TTodo[] | TDefaultTodo[];
 };
 
 const Calendar = ({ initialDate, todos }: CalendarProps) => {
