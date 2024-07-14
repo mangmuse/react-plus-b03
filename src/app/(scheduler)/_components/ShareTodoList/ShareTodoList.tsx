@@ -34,14 +34,7 @@ const ShareTodoList = ({ todos, isShared }: PropItem) => {
       </span>
       <div className="flex flex-col space-y-2 mt-2 mr-5 ml-5">
         {completedTodos &&
-          completedTodos.map((item) => (
-            <TodoItem
-              key={item.id}
-              item={item}
-              isShared={isShared}
-              classname={"bg-neutral-100/[0.25]"}
-            />
-          ))}
+          completedTodos.map((item) => <TodoItem key={item.id} item={item} isShared={isShared} />)}
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { BASE_URL } from "../useMutation/useScheduleMutation";
 import { TDefaultTodoRes } from "@/types/scheduler.type";
 import { getTodos } from "@/utils/api/schedule.api";
 

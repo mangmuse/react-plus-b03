@@ -12,7 +12,8 @@ import { validateTodo } from "@/utils/todoValidation";
 
 const getTodayDate = (): string => {
   const today = new Date();
-  return today.toLocaleDateString("en-CA"); 
+
+  return today.toLocaleDateString("en-CA");
 };
 
 const initialState: TTodoForm = {

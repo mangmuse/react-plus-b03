@@ -1,12 +1,12 @@
 "use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useParams } from "next/navigation";
 import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
+import { useModal } from "@/services/modal/modal.context";
+import Image from "next/image";
+import React, { useState } from "react";
 import filledStar from "/public/icons/filledStar.svg";
 
 export type PropItem = {
@@ -59,9 +59,9 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
     return (
       <div
         onClick={handleClick}
-        className={` relative p-5 rounded-xl bg-white hover:scale-105 ${
-          classname ? classname : "border-zinc-900/[0.06] border-2"
-        }`}
+        className={`relative p-5 rounded-xl bg-white hover:scale-105 border-zinc-900/[0.06] border-2 ${
+          item.isDone ? "bg-slate-600/15 filter brightness-75 border-none" : ""
+        } ${classname || ""}`}
       >
         <div className="flex flex-col">
           {isShared && isTtodo(item) && (
@@ -69,7 +69,7 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
           )}
           <div className="flex gap-5 items-center">
             <div className="text-base font-bold text-[#1c1d22]">{item.title}</div>
-            <div className="text-zinc-900/[0.5] text-xs font-medium">{item.description}</div>
+            <div className=" text-zinc-900/[0.5] text-xs font-medium">{item.description}</div>
           </div>
           <div className="flex items-center mt-5 gap-5">
             <div>

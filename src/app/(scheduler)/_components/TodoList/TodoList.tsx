@@ -1,11 +1,11 @@
 "use client";
 
-import TodoBlock from "../TodoBlock";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 import useDateStore from "@/store/useDateStore";
 import { TDefaultTodo } from "@/types/scheduler.type";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
 import { format } from "date-fns";
+import TodoBlock from "../TodoBlock";
 
 const TodoList = ({ isImportantPage }: { isImportantPage?: boolean }) => {
   const selectedDate = useDateStore((state) => state.selectedDate);
@@ -23,7 +23,7 @@ const TodoList = ({ isImportantPage }: { isImportantPage?: boolean }) => {
   const completedTodos = selectedDateTodos?.filter((todo) => todo.isDone) || [];
 
   return (
-    <div className="flex flex-wrap gap-16  ">
+    <div className="flex w-full justify-center flex-wrap gap-4">
       <TodoBlock todos={pendingTodos} title="미완료 TODO" />
       <TodoBlock todos={completedTodos} title="완료 TODO" />
       {/* <ShareTodoList />

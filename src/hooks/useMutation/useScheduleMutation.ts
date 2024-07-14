@@ -24,6 +24,7 @@ const useScheduleMutation = () => {
   const queryClient = useQueryClient();
   const { mutateAsync: addCalendar } = useMutation({
     mutationFn: (newCalendar: TCalendarForm) => postCalendar(newCalendar),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["calendars"] });
     },
@@ -31,6 +32,7 @@ const useScheduleMutation = () => {
 
   const { mutateAsync: addTodo } = useMutation({
     mutationFn: (newTodo: TTodoForm) => postTodo(newTodo),
+
     onSuccess: (data, variables) => {
       const calendarId = variables.calendarId;
       queryClient.invalidateQueries({ queryKey: ["todos"] });
@@ -39,6 +41,7 @@ const useScheduleMutation = () => {
 
   const { mutateAsync: addDefaultTodo } = useMutation({
     mutationFn: (newTodo: TTodoForm) => postDefaultTodo(newTodo),
+
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
@@ -62,6 +65,7 @@ const useScheduleMutation = () => {
 
       return { previousTodos, calendarId };
     },
+
     onError: (err, newTodo, context) => {
       if (context?.previousTodos) {
         queryClient.setQueryData(
@@ -91,6 +95,7 @@ const useScheduleMutation = () => {
 
       return { previousTodos };
     },
+
     onError: (err, newTodo, context) => {
       if (context?.previousTodos) {
         queryClient.setQueryData(["default_todos"], context.previousTodos);
@@ -125,6 +130,7 @@ const useScheduleMutation = () => {
 
       return { previousTodos };
     },
+
     onError: (err, toBeDeleted, context) => {
       console.error("onError", err);
       queryClient.setQueryData(["todos"], context?.previousTodos);
@@ -156,6 +162,7 @@ const useScheduleMutation = () => {
 
       return { previousTodos, todoId };
     },
+
     onError: (err, todoId, context) => {
       queryClient.setQueryData(["default_todos"], context?.previousTodos);
     },
@@ -180,6 +187,7 @@ const useScheduleMutation = () => {
     updateDefaultTodo,
     removeTodo,
     removeDefaultTodo,
+
     addParticipant,
   };
 };

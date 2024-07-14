@@ -6,10 +6,9 @@ import TodoList from "../../_components/TodoList";
 const ImportantTodosPage = () => {
   return (
     <Page title="IMPORTANT">
-      <section className="flex flex-col items-center">
-        <TodoDate />
-        <TodoList isImportantPage={true} />
-      </section>
+      <TodoDate />
+
+      <TodoList isImportantPage={true} />
     </Page>
   );
 };
