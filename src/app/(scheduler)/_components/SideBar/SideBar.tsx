@@ -11,7 +11,7 @@ const SideBar = () => {
 
   return (
     <aside className="fixed w-64 min-h-screen bg-white h-screen">
-      <div className="bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
+      <div className=" bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
         <div className="flex items-center">
           <p className="bg-white border rounded-3xl text-xs w-12 h-12">
             <Image
@@ -20,9 +20,17 @@ const SideBar = () => {
               width={15}
               height={15}
               className="mt-4 ml-3.5"
-            ></Image>
+            />
           </p>
-          <p className="font-semibold text-lg ml-5">유저 정보</p>
+          <div className="ml-4">
+            <p className="flex flex-col">
+              <p className="font-semibold text-center">유저 정보</p>
+              <p className="flex items-center gap-1">
+                <Image src="/icons/sidebar/ic-user-page.png" alt="" width={17} height={10} />
+                <Link href="">마이페이지</Link>
+              </p>
+            </p>
+          </div>
         </div>
         <div className="mt-6 ml-7">
           <div className="mb-6">
