@@ -161,7 +161,23 @@ const useScheduleMutation = () => {
       }
       return res.json();
     },
-    onSuccess: () => {
+    onMutate: async (todoId) => {
+      await queryClient.cancelQueries({ queryKey: ["todos"] });
+
+      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["todos"]);
+
+      queryClient.setQueryData<Tables<"todos">[]>(["todos"], (old) =>
+        old ? old.filter((todo) => todo.id !== todoId) : [],
+      );
+
+      return { previousTodos, todoId };
+    },
+    onError: (err, todoId, context) => {
+      console.error("Error:", err);
+      console.log("Context:", context);
+      queryClient.setQueryData(["todos"], context.previousTodos);
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
@@ -173,14 +189,30 @@ const useScheduleMutation = () => {
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(todoId),
+        body: JSON.stringify({ id: todoId }), // Corrected payload structure
       });
       if (!res.ok) {
         throw new Error("Todo 삭제 실패");
       }
       return res.json();
     },
-    onSuccess: () => {
+    onMutate: async (todoId) => {
+      await queryClient.cancelQueries({ queryKey: ["default_todos"] });
+
+      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["default_todos"]);
+
+      queryClient.setQueryData<Tables<"todos">[]>(["default_todos"], (old) =>
+        old ? old.filter((todo) => todo.id !== todoId) : [],
+      );
+
+      return { previousTodos, todoId };
+    },
+    onError: (err, todoId, context) => {
+      console.error("Error:", err);
+      console.log("Context:", context);
+      queryClient.setQueryData(["default_todos"], context.previousTodos);
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });
     },
   });

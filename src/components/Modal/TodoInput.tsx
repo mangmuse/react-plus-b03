@@ -57,8 +57,8 @@ const TodoInput = () => {
       alert("채우세요");
       return;
     }
-    isShared ? await addTodo(newTodo) : await addDefaultTodo(newTodo);
     close();
+    isShared ? await addTodo(newTodo) : await addDefaultTodo(newTodo);
   };
 
   return (

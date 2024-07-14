@@ -8,6 +8,7 @@ import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import useMyTodoQuery, { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import { useParams } from "next/navigation";
+import { validateTodo } from "@/utils/todoValidation";
 
 export type PropItem = {
   item: Ttodo | TDefaultTodo;
@@ -17,6 +18,7 @@ export type PropItem = {
 const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
   return (item as Ttodo).calendarId !== undefined;
 };
+validateTodo;
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { calendarId } = useParams();

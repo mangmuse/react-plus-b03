@@ -83,10 +83,13 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
     const supabase = createClient();
-
+    console.log("dqwdhjqwoidhqwoidhqwhdioqwhdihqwo");
     try {
       const todoId = await req.json();
       console.log(todoId);
+      console.log(
+        "이거 딜리트투두아이디이거 딜리트투두아이디이거 딜리트투두아이디이거 딜리트투두아이디이거 딜리트투두아이디이거 딜리트투두아이디",
+      );
       console.log(
         "todoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoID",
       );
