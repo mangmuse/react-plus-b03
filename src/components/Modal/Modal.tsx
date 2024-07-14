@@ -9,6 +9,7 @@ import DeleteModal from "./DeleteModal";
 import ModifyModal from "./ModifyModal";
 import TodoInput from "./TodoInput";
 import MdSharedCalendarForm from "./MdSharedCalendarForm";
+import MdShareCalendars from "./MdShareCalendars";
 
 const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
   const handleCloseModal = () => {
@@ -21,12 +22,11 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
         return <TodoInput />;
       case "confirm":
         return (
-          <ConfirmModal
-            type={type}
-            content={content}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-          />
+          <ConfirmModal type={type} content={content} onConfirm={onConfirm} onCancel={onCancel} />
+        );
+      case "share":
+        return (
+          <MdShareCalendars type={type} content={content} onClose={onClose} onConfirm={onConfirm} />
         );
       case "form":
         return <MdSharedCalendarForm />;
