@@ -1,7 +1,8 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { fetchUserProfile, updateUserProfile } from "@/app/api/mypage/route";
+import axios from "axios";
 import UserProfileImage from "../_components/UserProfileImage/UserProfileImage";
 import { useUserStore } from "@/store/useasdStore";
 
@@ -14,20 +15,28 @@ const Mypage = () => {
   const [isEditingImage, setIsEditingImage] = useState(false);
   const router = useRouter();
 
-  const setUser = useUserStore((state) => state.setUser);
+  const { setUser, id } = useUserStore((state) => ({
+    setUser: state.setUser,
+    id: state.id,
+  }));
 
   useEffect(() => {
     const getUserProfile = async () => {
-      const profile = await fetchUserProfile();
-      if (profile) {
-        setNickname(profile.nickname);
-        setEmail(profile.email);
-        setProfileImage(profile.image_url);
-        setImagePreview(profile.image_url);
+      try {
+        const response = await axios.get("/api/mypage", { params: { userId: id } });
+        const profile = response.data;
+        if (profile) {
+          setNickname(profile.nickname);
+          setEmail(profile.email);
+          setProfileImage(profile.image_url);
+          setImagePreview(profile.image_url);
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
       }
     };
     getUserProfile();
-  }, []);
+  }, [id]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -54,17 +63,29 @@ const Mypage = () => {
       nickname,
       image_url: profileImage,
     };
-    const success = await updateUserProfile(profile);
-    if (success) {
-      console.log("Profile updated successfully");
-      setUser(null, email, nickname, profileImage || ""); // Zustand 스토어 업데이트
-      router.push("/todos/today");
-    } else {
-      console.error("Error updating profile");
+    try {
+      const response = await axios.post("/api/mypage", {
+        userId: id,
+        profile: profile,
+      });
+      const success = response.data;
+      if (success) {
+        console.log("Profile updated successfully");
+        if (id) {
+          setUser(id, email, nickname, profileImage || ""); 
+        } else {
+          console.error("User ID is not available.");
+        }
+        router.push("/todos/today");
+      } else {
+        console.error("Error updating profile");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
     }
   };
 
-   return (
+  return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">마이페이지</h1>
       <UserProfileImage imagePreview={imagePreview} />

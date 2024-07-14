@@ -6,7 +6,7 @@ type UserState = {
   email: string | null;
   nickname: string | null;
   image_url: string | null;
-  setUser: (id: string, email: string, nickname: string, image_url: string) => void;
+  setUser: (id: string | null, email: string | null, nickname: string | null, image_url: string | null) => void;
 };
 
 export const useUserStore = create<UserState>()(
@@ -20,13 +20,8 @@ export const useUserStore = create<UserState>()(
         setUser: (id, email, nickname, image_url) => set({ id, email, nickname, image_url }),
       }),
       {
-        name: "user-storage", 
+        name: "user-storage", // key 이름
       },
     ),
   ),
 );
-
-
-
-
-

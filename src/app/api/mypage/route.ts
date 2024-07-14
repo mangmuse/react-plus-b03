@@ -1,47 +1,50 @@
-import { getSupabaseClient } from "@/utils/supabase/client"; // 서버 사이드에서 Supabase 클라이언트를 가져오는 함수
-export const fetchUserProfile = async () => {
-  const supabase = getSupabaseClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (data?.user) {
-    const { user } = data;
-    const { data: profile, error: profileError } = await supabase
-      .from("users")
-      .select("nickname, email, image_url")
-      .eq("id", user.id) // 'id' 필드를 사용하여 사용자를 식별합니다.
-      .single();
-    if (profileError) {
-      console.error("Error fetching user profile:", profileError);
-      return null;
-    } else {
-      return profile;
-    }
-  } else if (error) {
-    console.error("Error fetching user:", error);
-    return null;
-  }
+import { createClient } from "@/utils/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+
+export type UserProfile = {
+  nickname: string;
+  image_url: string;
+  email: string;
+  id: string;
 };
 
-export const updateUserProfile = async (profile: {
-  email: string;
-  nickname: string;
-  image_url: string | null;
-}) => {
-  const supabase = getSupabaseClient();
-  const { data, error } = await supabase.auth.getUser();
-  if (data?.user) {
-    const userId = data.user.id;
-    const { data: updatedData, error: updateError } = await supabase
-      .from("users")
-      .update(profile)
-      .eq("id", userId);
-    if (updateError) {
-      console.error("Error updating profile:", updateError);
-      return false;
-    } else {
-      return true;
-    }
-  } else if (error) {
-    console.error("Error fetching user:", error);
-    return false;
+interface ErrorResponse {
+  error: string;
+}
+
+export const GET = async (request: NextRequest): Promise<NextResponse> => {
+  const supabase = createClient();
+  const userId = request.nextUrl.searchParams.get("userId");
+  const response = await supabase
+    .from("users")
+    .select("nickname, image_url, email, id")
+    .eq("id", userId!)
+    .single();
+
+  const profile = response.data;
+  const profileError = response.error;
+  if (profileError) {
+    return NextResponse.json({ error: profileError.message } as ErrorResponse, { status: 500 });
   }
+
+  return NextResponse.json(profile);
+};
+
+export const POST = async (request: NextRequest): Promise<NextResponse> => {
+  const supabase = createClient();
+  const data = await request.json();
+  const profile = data.profile;
+  const userId = data.userId;
+
+  const { error } = await supabase
+    .from("users")
+    .update(profile)
+    .eq("id", userId);
+
+  if (error) {
+    console.error(error);
+    return NextResponse.json({ error: error.message } as ErrorResponse, { status: 500 });
+  }
+
+  return NextResponse.json(true);
 };

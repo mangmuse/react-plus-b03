@@ -52,7 +52,7 @@ export default function LoginPage() {
           } else {
             // Zustand 상태 업데이트
             setUser(userData.id, userData.email, userData.nickname ?? "", userData.image_url ?? "");
-            
+            alert("로그인 성공");
           }
         
       router.push("/todos/today");
