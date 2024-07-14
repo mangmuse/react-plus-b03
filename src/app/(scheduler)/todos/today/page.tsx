@@ -13,7 +13,6 @@ const TodayTodosPage = () => {
   return (
     <Page title="TODAY">
       <TodoDate />
-
       <TodoList />
     </Page>
   );

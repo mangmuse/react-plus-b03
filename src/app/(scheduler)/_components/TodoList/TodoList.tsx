@@ -23,7 +23,7 @@ const TodoList = ({ isImportantPage }: { isImportantPage?: boolean }) => {
   const completedTodos = selectedDateTodos?.filter((todo) => todo.isDone) || [];
 
   return (
-    <div className="flex flex-wrap justify-around gap-4">
+    <div className="flex flex-wrap gap-16  ">
       <TodoBlock todos={pendingTodos} title="미완료 TODO" />
       <TodoBlock todos={completedTodos} title="완료 TODO" />
       {/* <ShareTodoList />
