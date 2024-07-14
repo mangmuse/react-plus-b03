@@ -3,38 +3,61 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
-import ModifyModal from "@/components/Modal/ModifyModal";
-import useTodoStore, { todo } from "@/store/useTodoStore";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useTodoStore from "@/store/useTodoStore";
 import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
+import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 
-interface propItem {
-  // item: Ttodo | TDefaultTodo;
-  item: any; // TODOTODO
-  isShared?: boolean;
+export type PropItem = {
+  item: Ttodo | TDefaultTodo;
   classname?: string;
-}
+  isShared: boolean;
+};
+const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
+  return (item as Ttodo).calendarId !== undefined;
+};
 
-const TodoItem = ({ item, classname, isShared }: propItem) => {
+const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { setSelectedTodo, selectedTodo } = useTodoStore();
+  const { updateTodo, updateDefaultTodo, updateIsImportant } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
   const modal = useModal();
-  const handleOpenModal = () => {
+  const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
     if (item) {
       setOpen(!open);
       setSelectedTodo(item);
     }
   };
+
+  const handleClick: React.MouseEventHandler<HTMLDivElement> = async () => {
+    const updatedTodo = {
+      id: item.id,
+      isDone: !item.isDone,
+    };
+    isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
+  };
+
+  const handleChangeIsImportant: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.stopPropagation();
+    const updatedTodo = {
+      id: item.id,
+      isImportant: !item.isImportant,
+    };
+    updateIsImportant(updatedTodo);
+  };
+
   if (item)
     return (
       <div
-        className={`relative p-5 rounded-xl bg-white ${
+        onClick={handleClick}
+        className={`cursor-pointer relative p-5 rounded-xl bg-white hover:scale-105 ${
           classname ? classname : "border-zinc-900/[0.06] border-2"
         }`}
       >
         <div className="flex flex-col">
-          {isShared && (
+          {isShared && isTtodo(item) && (
             <div className="text-xs font-medium text-zinc-900/[0.5]">{item.nickname}</div>
           )}
           <div className="flex gap-5 items-center">
@@ -58,8 +81,15 @@ const TodoItem = ({ item, classname, isShared }: propItem) => {
         </div>
         <div className="absolute top-3 right-3 flex space-x-2">
           {!isShared && (
-            <button className="text-xs font-medium">
-              <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+            <button
+              onClick={handleChangeIsImportant}
+              className="hover:scale-105 text-xs font-medium"
+            >
+              {item.isImportant ? (
+                "중요한거"
+              ) : (
+                <Image src="/star.png" alt="즐겨찾기" width={20} height={20} />
+              )}
             </button>
           )}
           <div className="h-5 w-7 flex flex-col items-center">

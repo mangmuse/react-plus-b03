@@ -1,4 +1,4 @@
-export function getBetweenDates(startDate: string, endDate: string) {
+export function getBetweenDates(startDate: string, endDate: string): string[] {
   const start = new Date(startDate);
   const end = new Date(endDate);
   const dateArray = [];
@@ -10,4 +10,8 @@ export function getBetweenDates(startDate: string, endDate: string) {
   }
 
   return dateArray;
+}
+
+export function sortByCreatedAt<T extends { createdAt: string }>(data: T[]): T[] {
+  return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }

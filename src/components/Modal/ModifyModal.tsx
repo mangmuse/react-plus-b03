@@ -2,14 +2,13 @@ import { ModalProps } from "@/types/modal.type";
 import React, { useEffect, useState } from "react";
 import Input from "../Input";
 import Button from "../Button";
-import useCalendarsQuery from "@/hooks/useQuery/useCalendarsQuery";
-import { Tables } from "@/types/supabase";
 import { useModal } from "@/services/modal/modal.context";
-import { newTodo } from "./TodoInput";
 import { useParams } from "next/navigation";
-import useTodoQuery from "@/hooks/useQuery/useTodoQuery";
+import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
+import { TTodoForm } from "@/types/scheduler.type";
+import { validateTodo } from "@/utils/\btodoValidation";
 
 const initialState = {
   title: "",
@@ -24,7 +23,7 @@ const ModifyModal = ({ type, content, onClose }: ModalProps) => {
   const { selectedTodo } = useTodoStore();
   const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
-  const [formState, setFormState] = useState<newTodo>(initialState);
+  const [formState, setFormState] = useState<TTodoForm>(initialState);
   const [isShared, setIsShared] = useState<boolean>(false);
 
   const modal = useModal();
@@ -44,6 +43,11 @@ const ModifyModal = ({ type, content, onClose }: ModalProps) => {
       ...formState,
       id: selectedTodo?.id,
     };
+    const isInvalid = validateTodo(updatedTodo);
+    if (isInvalid) {
+      alert("빈칸 채우십쇼");
+      return;
+    }
     isShared ? await updateTodo(updatedTodo) : await updateDefaultTodo(updatedTodo);
 
     modal.close();

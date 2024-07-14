@@ -1,5 +1,8 @@
 "use client";
 
+import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
+import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useDateStore from "@/store/useDateStore";
 import {
   addDays,
   addMonths,
@@ -15,11 +18,20 @@ import Image from "next/image";
 import { useState } from "react";
 
 type CalendarProps = {
-  selectedDate: Date;
+  initialDate: Date;
+  todos?: Ttodo[] | TDefaultTodo[];
 };
 
-const Calendar = ({ selectedDate }: CalendarProps) => {
+const Calendar = ({ initialDate, todos }: CalendarProps) => {
+  const { selectedDate, setSelectedDate } = useDateStore();
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const allDatesSet = new Set<string>();
+  if (todos) {
+    todos.forEach((todo) => {
+      todo.dateArray.forEach((date) => allDatesSet.add(date));
+    });
+  }
 
   const renderHeader = () => {
     return (
@@ -60,15 +72,26 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, "d");
-        const cloneDay = day;
+        const dateString = format(day, "yyyy-MM-dd");
+        const cloneDay = new Date(day);
+        const isEventDay = allDatesSet.has(dateString);
         days.push(
           <div
-            className={`p-2 text-center ${
+            className={`p-5 text-center cursor-pointer relative ${
               format(currentMonth, "M") !== format(day, "M") ? "text-gray-400" : ""
-            } ${isSameDay(day, selectedDate) ? "bg-blue-200 rounded-full" : ""}`}
+            }`}
             key={day.toString()}
+            onClick={() => handleDateClick(cloneDay)}
           >
-            <span>{formattedDate}</span>
+            {isSameDay(day, selectedDate) && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-10 h-10 bg-blue-200 rounded-full"></div>
+              </div>
+            )}
+            <span className="relative">{formattedDate}</span>
+            {isEventDay && (
+              <div className="absolute bottom-[-1px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-300 rounded-full"></div>
+            )}
           </div>,
         );
         day = addDays(day, 1);
@@ -81,6 +104,11 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
       days = [];
     }
     return <div>{rows}</div>;
+  };
+
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+    console.log(format(date, "yyyy-MM-dd"));
   };
 
   return (

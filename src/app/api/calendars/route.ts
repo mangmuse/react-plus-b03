@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
+import { TCalendar } from "@/hooks/useQuery/useCalendarsQuery";
+import { Tables } from "@/types/supabase";
 
 export async function GET(req: NextRequest) {
   //
@@ -40,11 +42,24 @@ export async function GET(req: NextRequest) {
           console.error(countError.message);
           return null;
         }
+
+        const { data: ownerNickname, error: userError } = await supabase
+          .from("users")
+          .select("nickname")
+          .eq("id", userId)
+          .single();
+
+        if (userError) {
+          return NextResponse.json({ error: "닉네임을 가져오지 못했습니다" });
+        }
+
         const participantCount = participantData.length;
 
-        return { ...calendarData, participantCount };
+        return { ...calendarData, participantCount, ownerNickname } as TCalendar;
       });
+
       const calendarsData = await Promise.all(calendarPromises);
+
       return NextResponse.json({ calendars: calendarsData });
     }
     if (calendarError) {
