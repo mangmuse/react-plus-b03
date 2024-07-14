@@ -10,7 +10,7 @@ const ImportantTodosPage = () => {
       <TodoDate />
 
       <TodoList isImportantPage={true} />
-      <Calendar selectedDate={new Date()} />
+      <Calendar initialDate={new Date()} />
     </Page>
   );
 };

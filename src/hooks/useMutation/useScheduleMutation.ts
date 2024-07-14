@@ -78,8 +78,8 @@ const useScheduleMutation = () => {
       }
       return res.json();
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    onSuccess: (todo) => {
+      queryClient.invalidateQueries({ queryKey: ["todos", { todoId: todo.id }] });
     },
   });
 
@@ -140,6 +140,27 @@ const useScheduleMutation = () => {
     },
   });
 
+  const { mutateAsync: addParticipant } = useMutation({
+    mutationFn: async (newParticipant: { email: string; calendarId: string }) => {
+      const res = await fetch(`${BASE_URL}/api/calendar/participant`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(newParticipant),
+      });
+      if (!res.ok) {
+        res.status === 409
+          ? alert("이미 존재하는 사용자입니다.")
+          : alert("사용자를 추가하지 못했습니다.");
+      }
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["calendars"] });
+    },
+  });
+
   const { mutate: updateIsImportant } = useMutation({
     mutationFn: async (todo: Partial<Tables<"todos">>) => {
       const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
@@ -194,6 +215,7 @@ const useScheduleMutation = () => {
     deleteTodo,
     deleteDefaultTodo,
     updateIsImportant,
+    addParticipant,
   };
 };
 

@@ -4,7 +4,9 @@ import { BASE_URL } from "../useMutation/useScheduleMutation";
 import { useUserStore } from "@/store/useasdStore";
 import { Tables } from "@/types/supabase";
 
-export type TDefaultTodo = Tables<"default_todos">;
+export type TDefaultTodo = Tables<"default_todos"> & {
+  dateArray: string[];
+};
 
 type TdefaultTodos = {
   todos: TDefaultTodo[];

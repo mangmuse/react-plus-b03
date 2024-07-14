@@ -19,7 +19,7 @@ const useMyTodoQuery = (todoId: string) => {
     error,
     isPending,
   } = useQuery<Ttodos, Error>({
-    queryKey: ["default_todos", { todoId }],
+    queryKey: ["todos", { todoId }],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/todo?todoId=${todoId}`, {
         headers: {

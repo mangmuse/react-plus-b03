@@ -4,6 +4,8 @@ import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import TodoItem from "../TodoItem";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+import useDateStore from "@/store/useDateStore";
+import { format } from "date-fns/format";
 
 export type PropItem = {
   todos?: Ttodo[] | TDefaultTodo[];
@@ -12,10 +14,13 @@ export type PropItem = {
 };
 
 const ShareTodoList = ({ todos, isShared }: PropItem) => {
-  console.log(todos);
+  const selectedDate = useDateStore((state) => state.selectedDate);
 
-  const pendingTodos = todos?.filter((todo) => !todo.isDone) || [];
-  const completedTodos = todos?.filter((todo) => todo.isDone) || [];
+  const selectedDateString = selectedDate && format(selectedDate, "yyyy-MM-dd");
+  const selectedDateTodos = todos?.filter((todo) => todo.dateArray.includes(selectedDateString));
+
+  const pendingTodos = selectedDateTodos?.filter((todo) => !todo.isDone) || [];
+  const completedTodos = selectedDateTodos?.filter((todo) => todo.isDone) || [];
 
   return (
     <div className="pt-14 flex flex-col w-full h-full rounded-xl border-dashed border-2 border-[rgb(28, 29, 34, 0.08)]">

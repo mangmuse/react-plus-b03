@@ -1,5 +1,6 @@
 "use client";
 
+import useDateStore from "@/store/useDateStore";
 import {
   addDays,
   addMonths,
@@ -12,13 +13,14 @@ import {
   subMonths,
 } from "date-fns";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type CalendarProps = {
-  selectedDate: Date;
+  initialDate: Date;
 };
 
-const Calendar = ({ selectedDate }: CalendarProps) => {
+const Calendar = ({ initialDate }: CalendarProps) => {
+  const { selectedDate, setSelectedDate } = useDateStore();
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const renderHeader = () => {
@@ -60,13 +62,14 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, "d");
-        const cloneDay = day;
+        const cloneDay = new Date(day);
         days.push(
           <div
-            className={`p-2 text-center ${
+            className={`p-2 text-center cursor-pointer ${
               format(currentMonth, "M") !== format(day, "M") ? "text-gray-400" : ""
             } ${isSameDay(day, selectedDate) ? "bg-blue-200 rounded-full" : ""}`}
             key={day.toString()}
+            onClick={() => handleDateClick(cloneDay)}
           >
             <span>{formattedDate}</span>
           </div>,
@@ -81,6 +84,11 @@ const Calendar = ({ selectedDate }: CalendarProps) => {
       days = [];
     }
     return <div>{rows}</div>;
+  };
+
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+    console.log(format(date, "yyyy-MM-dd"));
   };
 
   return (
