@@ -7,20 +7,25 @@ import { useEffect, useState } from "react";
 import { Tables } from "@/types/supabase";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useModal } from "@/services/modal/modal.context";
+import { TTodoForm } from "@/types/scheduler.type";
+import { validateTodo } from "@/utils/\btodoValidation";
 
-export type newTodo = Partial<Tables<"todos">>;
-const initialState = {
+const getTodayDate = (): string => {
+  return new Date().toISOString().split("T")[0];
+};
+
+const initialState: TTodoForm = {
   title: "",
   description: "",
-  startDate: "",
-  endDate: "",
+  startDate: getTodayDate(),
+  endDate: getTodayDate(),
 };
 
 const TodoInput = () => {
   const { addTodo, addDefaultTodo } = useScheduleMutation();
   const { close } = useModal();
   const [isShared, setIsShared] = useState<boolean>(false);
-  const [formState, setFormState] = useState<newTodo>(initialState);
+  const [formState, setFormState] = useState<TTodoForm>(initialState);
   const params = useParams();
   const calendarId = params.calendarId as string;
   useEffect(() => {
@@ -47,6 +52,11 @@ const TodoInput = () => {
       startDate,
       endDate,
     };
+    const isInvalid = validateTodo(newTodo);
+    if (isInvalid) {
+      alert("채우세요");
+      return;
+    }
     isShared ? await addTodo(newTodo) : await addDefaultTodo(newTodo);
     close();
   };
