@@ -3,17 +3,10 @@ import { Tables } from "../../types/supabase";
 
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
+import { TDefaultTodoRes } from "@/types/scheduler.type";
 
-export type Ttodo = Tables<"todos"> & {
-  dateArray: string[];
-  nickname: string;
-};
-export type TMyTodo = Tables<"default_todos"> & {
-  dateArray: string[];
-  nickname: string;
-};
 type Ttodos = {
-  todos: TMyTodo;
+  todos: TDefaultTodoRes;
 };
 
 const useMyTodoQuery = (todoId: string) => {

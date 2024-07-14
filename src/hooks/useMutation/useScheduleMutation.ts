@@ -1,13 +1,19 @@
 import { Tables } from "@/types/supabase";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TDefaultTodo } from "../useQuery/useMyScheduleQuery";
+import {
+  TCalendarForm,
+  TDefaultTodoRes,
+  TDefaultTodo,
+  TTodo,
+  TTodoForm,
+} from "@/types/scheduler.type";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const useScheduleMutation = () => {
   const queryClient = useQueryClient();
   const { mutateAsync: createCalendar } = useMutation({
-    mutationFn: async (newCalendar: Partial<Tables<"calendars">>) => {
+    mutationFn: async (newCalendar: TCalendarForm) => {
       const res = await fetch(`${BASE_URL}/api/calendar`, {
         method: "POST",
         headers: {
@@ -26,7 +32,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: addTodo } = useMutation({
-    mutationFn: async (newTodo: Partial<Tables<"todos">>) => {
+    mutationFn: async (newTodo: TTodoForm) => {
       const res = await fetch(`${BASE_URL}/api/todo`, {
         method: "POST",
         headers: {
@@ -46,7 +52,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: addDefaultTodo } = useMutation({
-    mutationFn: async (newTodo: Partial<Tables<"todos">>) => {
+    mutationFn: async (newTodo: TTodoForm) => {
       const res = await fetch(`${BASE_URL}/api/todo/my`, {
         method: "POST",
         headers: {
@@ -65,7 +71,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: updateTodo } = useMutation({
-    mutationFn: async (todo: Partial<Tables<"todos">>) => {
+    mutationFn: async (todo: TTodoForm) => {
       const res = await fetch(`${BASE_URL}/api/todo?todoId=${todo.id}`, {
         method: "PATCH",
         headers: {
@@ -85,13 +91,13 @@ const useScheduleMutation = () => {
       console.log(calendarId);
       await queryClient.cancelQueries({ queryKey: ["todos", { calendarId }] });
 
-      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["todos", { calendarId }]);
+      const previousTodos = queryClient.getQueryData<TTodo[]>(["todos", { calendarId }]);
 
       if (previousTodos) {
         const updatedTodos = previousTodos.map((todo) =>
           todo.id === newTodo.id ? { ...todo, ...newTodo } : todo,
         );
-        queryClient.setQueryData<Tables<"todos">[]>(["todos", { calendarId }], updatedTodos);
+        queryClient.setQueryData<TTodo[]>(["todos", { calendarId }], updatedTodos);
       }
 
       return { previousTodos, calendarId };
@@ -111,7 +117,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: updateDefaultTodo } = useMutation({
-    mutationFn: async (todo: Partial<Tables<"default_todos">>) => {
+    mutationFn: async (todo: TDefaultTodo) => {
       const res = await fetch(`${BASE_URL}/api/todo/my?todoId=${todo.id}`, {
         method: "PATCH",
         headers: {
@@ -130,7 +136,7 @@ const useScheduleMutation = () => {
       const previousTodos = queryClient.getQueryData<TDefaultTodo[]>(["default_todos"]);
 
       if (previousTodos) {
-        queryClient.setQueryData(["default_todos"], (oldTodos: TDefaultTodo[]) =>
+        queryClient.setQueryData(["default_todos"], (oldTodos: TDefaultTodoRes[]) =>
           oldTodos.map((todo) => (todo.id === newTodo.id ? { ...todo, ...newTodo } : todo)),
         );
       }
@@ -148,7 +154,7 @@ const useScheduleMutation = () => {
   });
 
   const { mutateAsync: deleteTodo } = useMutation({
-    mutationFn: async (todoId: Partial<Tables<"todos">>["id"]) => {
+    mutationFn: async (todoId: TTodoForm) => {
       const res = await fetch(`${BASE_URL}/api/todo`, {
         method: "DELETE",
         headers: {
@@ -161,35 +167,54 @@ const useScheduleMutation = () => {
       }
       return res.json();
     },
-    onMutate: async (todoId) => {
-      await queryClient.cancelQueries({ queryKey: ["todos"] });
+    onMutate: async (toBeDeleted) => {
+      const calendarId = toBeDeleted.calendarId;
 
-      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["todos"]);
+      console.log("onMutate start", toBeDeleted);
+      await queryClient.cancelQueries({
+        queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
+      });
 
-      queryClient.setQueryData<Tables<"todos">[]>(["todos"], (old) =>
-        old ? old.filter((todo) => todo.id !== todoId) : [],
+      const previousTodos = queryClient.getQueryData<TTodo[]>([
+        "todos",
+        { calendarId: toBeDeleted.calendarId },
+      ]);
+      console.log("previousTodos", previousTodos);
+
+      queryClient.setQueryData<TTodo[]>(["todos", { calendarId: toBeDeleted.calendarId }], (old) =>
+        old ? old.filter((todo) => todo.id !== toBeDeleted.id) : [],
       );
 
-      return { previousTodos, todoId };
+      console.log("onMutate end");
+
+      return { previousTodos };
     },
-    onError: (err, todoId, context) => {
-      console.error("Error:", err);
-      console.log("Context:", context);
-      queryClient.setQueryData(["todos"], context.previousTodos);
+    onError: (err, toBeDeleted, context) => {
+      console.error("onError", err);
+      queryClient.setQueryData(["todos"], context?.previousTodos);
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    onSettled: (toBeDeleted) => {
+      console.log("onSettled");
+      queryClient.invalidateQueries({
+        queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
+      });
+    },
+    onSuccess: (toBeDeleted) => {
+      console.log("onSuccess");
+      queryClient.invalidateQueries({
+        queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
+      });
     },
   });
 
   const { mutateAsync: deleteDefaultTodo } = useMutation({
-    mutationFn: async (todoId: Partial<Tables<"todos">>["id"]) => {
+    mutationFn: async (todoId: TTodoForm["id"]) => {
       const res = await fetch(`${BASE_URL}/api/todo/my`, {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify({ id: todoId }), // Corrected payload structure
+        body: JSON.stringify({ id: todoId }),
       });
       if (!res.ok) {
         throw new Error("Todo 삭제 실패");
@@ -199,7 +224,7 @@ const useScheduleMutation = () => {
     onMutate: async (todoId) => {
       await queryClient.cancelQueries({ queryKey: ["default_todos"] });
 
-      const previousTodos = queryClient.getQueryData<Tables<"todos">[]>(["default_todos"]);
+      const previousTodos = queryClient.getQueryData<TTodo>(["default_todos"]);
 
       queryClient.setQueryData<Tables<"todos">[]>(["default_todos"], (old) =>
         old ? old.filter((todo) => todo.id !== todoId) : [],
@@ -208,9 +233,7 @@ const useScheduleMutation = () => {
       return { previousTodos, todoId };
     },
     onError: (err, todoId, context) => {
-      console.error("Error:", err);
-      console.log("Context:", context);
-      queryClient.setQueryData(["default_todos"], context.previousTodos);
+      queryClient.setQueryData(["default_todos"], context?.previousTodos);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["default_todos"] });

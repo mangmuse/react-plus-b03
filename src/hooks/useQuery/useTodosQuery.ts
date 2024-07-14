@@ -3,13 +3,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../useMutation/useScheduleMutation";
 import { Ttodo } from "./useTodoQuery";
+import { TDefaultTodoRes } from "@/types/scheduler.type";
 
 const useTodosQuery = (calendarId: string) => {
   const {
     data: todos,
     error,
     isPending,
-  } = useQuery<Ttodo[]>({
+  } = useQuery<TDefaultTodoRes[]>({
     queryKey: ["todos", { calendarId }],
     queryFn: async () => {
       const res = await fetch(`${BASE_URL}/api/todos?calendarId=${calendarId}`, {

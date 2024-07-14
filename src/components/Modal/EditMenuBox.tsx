@@ -4,13 +4,16 @@ import React from "react";
 const EditMenuBox = () => {
   const modal = useModal();
 
-  const handledeleteModal = () => {
+  const handledeleteModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+
     modal.open({
       type: "Edit",
       content: "삭제 하시겠습니까?",
     });
   };
-  const handleModifyModal = () => {
+  const handleModifyModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
     modal.open({
       type: "Modify",
       content: "",

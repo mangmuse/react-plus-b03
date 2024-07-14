@@ -1,3 +1,5 @@
+import { TDefaultTodo, TDefaultTodoRes } from "@/types/scheduler.type";
+
 export function getBetweenDates(startDate: string, endDate: string): string[] {
   const start = new Date(startDate);
   const end = new Date(endDate);
@@ -12,6 +14,6 @@ export function getBetweenDates(startDate: string, endDate: string): string[] {
   return dateArray;
 }
 
-export function sortByCreatedAt<T extends { createdAt: string }>(data: T[]): T[] {
+export function sortByCreatedAt(data: TDefaultTodoRes[]): TDefaultTodoRes[] {
   return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 }

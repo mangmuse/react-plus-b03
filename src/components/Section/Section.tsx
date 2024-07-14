@@ -2,7 +2,6 @@
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
 import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
 import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
 import useDateStore from "@/store/useDateStore";
@@ -17,7 +16,7 @@ const Section = ({ calendarId }: SectionProps) => {
   const { todos, error, isPending } = useTodosQuery(calendarId);
   const setSelectedDate = useDateStore((state) => state.setSelectedDate);
   const { addParticipant } = useScheduleMutation();
-  const sortedTodo = todos && sortByCreatedAt<Ttodo>(todos);
+  const sortedTodo = todos && sortByCreatedAt(todos);
   const handleAddParticipant = () => {
     const email = "mangse@gmail.com";
     addParticipant({ email, calendarId });

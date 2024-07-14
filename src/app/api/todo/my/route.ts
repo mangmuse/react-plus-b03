@@ -100,7 +100,12 @@ export async function DELETE(req: NextRequest) {
     const supabase = createClient();
 
     try {
-      const { todoId } = await req.json();
+      const reqId = await req.json();
+      const todoId = reqId.id;
+
+      console.log();
+      console.log("이거투두아이디이거투두아이디이거투두아이디이거투두아이디이거투두아이디");
+
       const { data, error } = await supabase.from("default_todos").delete().eq("id", todoId);
       if (error) {
         console.log(error);

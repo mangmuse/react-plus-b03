@@ -15,7 +15,7 @@ const DeleteModal = ({ type, content, onClose }: ModalProps) => {
 
     if (!!selectedTodo) {
       selectedTodo.calendarId
-        ? await deleteTodo(selectedTodo.id)
+        ? await deleteTodo(selectedTodo)
         : await deleteDefaultTodo(selectedTodo.id);
     } else {
     }
