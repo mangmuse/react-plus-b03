@@ -8,7 +8,7 @@ import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { TTodoForm } from "@/types/scheduler.type";
-import { validateTodo } from "@/utils/\btodoValidation";
+import { validateTodo } from "@/utils/todoValidation";
 
 const initialState = {
   title: "",
