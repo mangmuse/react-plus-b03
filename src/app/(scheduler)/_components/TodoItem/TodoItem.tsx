@@ -20,7 +20,6 @@ const isTtodo = (item: TTodo | TDefaultTodo): item is TTodo => {
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { calendarId } = useParams();
-  console.log(calendarId);
   const { setSelectedTodo, selectedTodo } = useTodoStore();
   const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
