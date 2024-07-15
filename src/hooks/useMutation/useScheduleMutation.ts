@@ -51,7 +51,6 @@ const useScheduleMutation = () => {
     mutationFn: (todo: TTodoForm) => patchTodo(todo),
     onMutate: async (newTodo) => {
       const calendarId = newTodo?.calendarId;
-      console.log(calendarId);
       await queryClient.cancelQueries({ queryKey: ["todos", { calendarId }] });
 
       const previousTodos = queryClient.getQueryData<TTodo[]>(["todos", { calendarId }]);
@@ -75,7 +74,6 @@ const useScheduleMutation = () => {
       }
     },
     onSettled: (newTodo, error, context) => {
-      console.log("onSettled triggered", newTodo);
       queryClient.invalidateQueries({ queryKey: ["todos", { calendarId: context?.calendarId }] });
     },
   });
@@ -111,7 +109,6 @@ const useScheduleMutation = () => {
     onMutate: async (toBeDeleted) => {
       const calendarId = toBeDeleted.calendarId;
 
-      console.log("onMutate start", toBeDeleted);
       await queryClient.cancelQueries({
         queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
       });
@@ -120,13 +117,10 @@ const useScheduleMutation = () => {
         "todos",
         { calendarId: toBeDeleted.calendarId },
       ]);
-      console.log("previousTodos", previousTodos);
 
       queryClient.setQueryData<TTodo[]>(["todos", { calendarId: toBeDeleted.calendarId }], (old) =>
         old ? old.filter((todo) => todo.id !== toBeDeleted.id) : [],
       );
-
-      console.log("onMutate end");
 
       return { previousTodos };
     },
@@ -136,13 +130,11 @@ const useScheduleMutation = () => {
       queryClient.setQueryData(["todos"], context?.previousTodos);
     },
     onSettled: (toBeDeleted) => {
-      console.log("onSettled");
       queryClient.invalidateQueries({
         queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
       });
     },
     onSuccess: (toBeDeleted) => {
-      console.log("onSuccess");
       queryClient.invalidateQueries({
         queryKey: ["todos", { calendarId: toBeDeleted.calendarId }],
       });
