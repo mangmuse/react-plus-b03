@@ -72,7 +72,7 @@ const Mypage = () => {
       if (success) {
         console.log("Profile updated successfully");
         if (id) {
-          setUser(id, email, nickname, profileImage || ""); 
+          setUser(id, email, nickname, profileImage || "");
         } else {
           console.error("User ID is not available.");
         }
@@ -92,11 +92,11 @@ const Mypage = () => {
       <div className="mt-4">
         {isEditingImage ? (
           <>
-            <input 
-              type="file" 
-              id="profileImage" 
-              accept="image/*" 
-              onChange={handleImageChange} 
+            <input
+              type="file"
+              id="profileImage"
+              accept="image/*"
+              onChange={handleImageChange}
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
             />
             {imagePreview && (

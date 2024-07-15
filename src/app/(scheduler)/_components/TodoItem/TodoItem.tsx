@@ -26,7 +26,6 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const [open, setOpen] = useState(false);
   const modal = useModal();
 
-  item && console.log(item, "asdasd");
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     if (item) {

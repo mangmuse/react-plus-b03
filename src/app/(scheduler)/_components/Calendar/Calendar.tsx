@@ -108,7 +108,6 @@ const Calendar = ({ initialDate, todos }: CalendarProps) => {
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
-    console.log(format(date, "yyyy-MM-dd"));
   };
 
   return (
