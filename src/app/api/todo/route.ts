@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
@@ -12,7 +11,6 @@ export async function POST(req: NextRequest) {
     error: userError,
   } = await supabase.auth.getUser();
   if (user && !userError) {
-    console.log(user);
     const { id: userId } = user;
 
     const newNewTodo = {
@@ -45,7 +43,6 @@ export async function PATCH(req: NextRequest) {
         .single();
 
       if (error) {
-        console.log(error);
         return NextResponse.json({ error: "업데이트 실패" });
       }
 
@@ -58,7 +55,6 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
     const supabase = createClient();
-    console.log("dqwdhjqwoidhqwoidhqwhdioqwhdihqwo");
     try {
       const todo = await req.json();
       const todoId = todo.id;

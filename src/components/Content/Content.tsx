@@ -17,7 +17,6 @@ interface ContentProps {
 
 const Content = ({ comment, calendarId }: ContentProps) => {
   const currentUserNickname = useUserStore((state) => state.nickname);
-  // const currnetUserImageUrl = useUserStore((state) => state.image_url)
   const user = comment.user || { nickname: currentUserNickname || "Unknown", image_url: "" };
 
   const [isEditing, setIsEditing] = useState<boolean>(false);

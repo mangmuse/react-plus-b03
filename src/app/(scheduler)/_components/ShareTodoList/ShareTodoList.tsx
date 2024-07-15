@@ -1,13 +1,12 @@
 "use client";
 
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
-import useDateStore from "@/store/useDateStore";
-import { TDefaultTodo } from "@/types/scheduler.type";
-import { format } from "date-fns/format";
 import TodoItem from "../TodoItem";
+import useDateStore from "@/store/useDateStore";
+import { format } from "date-fns/format";
+import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
 
 export type PropItem = {
-  todos?: Ttodo[] | TDefaultTodo[];
+  todos?: TTodo[] | TDefaultTodo[];
   classname?: string;
   isShared: boolean;
 };

@@ -4,7 +4,6 @@ import Input from "../Input";
 import Button from "../Button";
 import { useModal } from "@/services/modal/modal.context";
 import { useParams } from "next/navigation";
-import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
 import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { TTodoForm } from "@/types/scheduler.type";
@@ -65,14 +64,7 @@ const ModifyModal = ({ type, content, onClose }: ModalProps) => {
   if (selectedTodo)
     return (
       <div className="flex flex-col w-full gap-8 text-[15px]">
-        <div className="flex flex-col">
-          <label htmlFor="options">일정 선택</label>
-          <select id="options" className="w-[400px] border border-gray-400 rounded px-4 py-2.5">
-            <option value="options" disabled>
-              내 일정
-            </option>
-          </select>
-        </div>
+        <div className="flex flex-col"></div>
         <div className="flex flex-col w-[400px]">
           <h2>일정 - title</h2>
           <Input

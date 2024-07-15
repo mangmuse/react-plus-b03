@@ -7,7 +7,6 @@ import useDateStore from "@/store/useDateStore";
 
 const TodoDate = () => {
   const { selectedDate, setSelectedDate } = useDateStore();
-  // const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handlePrevDay = () => {
     setSelectedDate((prevDate) => subDays(prevDate, 1));

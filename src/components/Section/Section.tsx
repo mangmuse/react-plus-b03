@@ -3,7 +3,7 @@
 import ShareCalendar from "@/app/(scheduler)/_components/ShareCalendar";
 import ShareTodoList from "@/app/(scheduler)/_components/ShareTodoList";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
+
 import useTodosQuery from "@/hooks/useQuery/useTodosQuery";
 import { useModal } from "@/services/modal/modal.context";
 import useDateStore from "@/store/useDateStore";
@@ -11,6 +11,7 @@ import { sortByCreatedAt } from "@/utils/formatSchedules";
 import Image from "next/image";
 import { useEffect } from "react";
 import Modal from "../Modal/Modal";
+import useTodoStore from "@/store/useTodoStore";
 
 type SectionProps = {
   calendarId: string;
@@ -19,19 +20,16 @@ type SectionProps = {
 const Section = ({ calendarId }: SectionProps) => {
   const { todos, error, isPending } = useTodosQuery(calendarId);
   const setSelectedDate = useDateStore((state) => state.setSelectedDate);
-  const { addParticipant } = useScheduleMutation();
-  // const sortedTodo = todos && sortByCreatedAt<Ttodo>(todos);
-  // const handleAddParticipant = () => {
-  //   const email = "mangse@gmail.com";
-  //   addParticipant({ email, calendarId });
-  // };
+  const setCalendarId = useTodoStore((state) => state.setCalendarId);
+
+  const sortedTodo = todos && sortByCreatedAt(todos);
+
   const modal = useModal();
   const handleShareModal = () => {
+    setCalendarId(calendarId);
     modal.open({ type: "share", content: "share" });
   };
-  const handleShareDelete = () => {
-    modal.open({ type: "Edit", content: "삭제 하시겠습니까?" });
-  };
+
   useEffect(() => {
     setSelectedDate(new Date());
   }, [setSelectedDate]);
@@ -48,13 +46,6 @@ const Section = ({ calendarId }: SectionProps) => {
             캘린더 공유
             <Image src="/shareicon.png" alt="공유 아이콘" width={18} height={18} />
           </button>
-          <button
-            onClick={handleShareDelete}
-            className="flex gap-1 border-2 p-2 font-bold bg-white border-black rounded-3xl items-center"
-          >
-            캘린더 삭제
-            <Image src="/ic-trash-cans-icon.png" alt="캘린더삭제 아이콘" width={16} height={16} />
-          </button>
         </div>
       </div>
 
@@ -64,7 +55,7 @@ const Section = ({ calendarId }: SectionProps) => {
         </div>
         {todos && (
           <div className="lg:col-span-2">
-            {/* <ShareTodoList isShared={true} todos={sortedTodo} /> */}
+            <ShareTodoList isShared={true} todos={sortedTodo} />
           </div>
         )}
       </section>

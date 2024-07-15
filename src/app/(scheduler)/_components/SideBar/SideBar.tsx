@@ -6,17 +6,17 @@ import { useUserStore } from "@/store/useasdStore";
 import LogoutButton from "@/app/auth/logout/page";
 
 const SideBar = () => {
-  const {nickname, image_url} = useUserStore((state) => ({
+  const { nickname, image_url } = useUserStore((state) => ({
     nickname: state.nickname,
     image_url: state.image_url,
-  }))
+  }));
   const { todos, isPending, error } = useMyScheduleQuery();
 
   return (
     <aside className="fixed w-64 min-h-screen bg-white h-screen">
       <div className=" bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
         <div className="flex items-center">
-        <div className="flex items-center">
+          <div className="flex items-center">
             {image_url && (
               <Image
                 src={image_url}
@@ -26,7 +26,7 @@ const SideBar = () => {
                 className="rounded-full"
               />
             )}
-            </div>
+          </div>
           <div className="ml-5">
             <ul className="flex flex-col">
               <li className="flex items-center gap-1">
@@ -34,6 +34,7 @@ const SideBar = () => {
                 <Link href="/mypage">Mypage</Link>
               </li>
             </ul>
+
             <p className="font-semibold text-lg ml-5">{nickname}</p>
           </div>
         </div>
@@ -66,7 +67,6 @@ const SideBar = () => {
                 />
                 <Link href="/todos/important" className="ml-3">
                   IMPORTANT
-
                 </Link>
               </li>
             </ul>

@@ -12,6 +12,7 @@ import { validateTodo } from "@/utils/todoValidation";
 
 const getTodayDate = (): string => {
   const today = new Date();
+
   return today.toLocaleDateString("en-CA");
 };
 
@@ -82,14 +83,14 @@ const TodoInput = () => {
         value={formState.startDate || ""}
         name="startDate"
         type="date"
-        label="아이디"
+        label="시작일"
       />
       <Input
         onChange={handleInputChange}
         value={formState.endDate || ""}
         name="endDate"
         type="date"
-        label="아이디"
+        label="종료일"
       />
 
       <Button onClick={handleAddTodo} size="lg" className="mt-8 mx-auto w-full">

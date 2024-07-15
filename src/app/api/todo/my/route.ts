@@ -11,8 +11,6 @@ export async function GET(req: NextRequest) {
   if (!todoId) {
     return NextResponse.json({ error: "todoId가 없습니다" });
   }
-  console.log(todoId);
-  console.log("asdsadqwdqwgdiuqwgdqwgui");
   const { data: todo, error } = await supabase
     .from("default_todos")
     .select("*")
@@ -20,8 +18,6 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (!error) {
-    console.log("이위에 투두이위에 투두이위에 투두이위에 투두이위에 투두");
-    console.log(todo);
     return NextResponse.json({ todo });
   }
 
@@ -29,8 +25,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  console.log("myTODO PSOT 요청");
-
   const supabase = createClient();
   const reqTodo = await req.json();
 
@@ -68,7 +62,6 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   if (req.method === "PATCH") {
-    console.log("myTODO PATch 요청");
     const supabase = createClient();
     const { searchParams } = new URL(req.url);
     const todoId = searchParams.get("todoId");
@@ -103,14 +96,10 @@ export async function DELETE(req: NextRequest) {
       const reqId = await req.json();
       const todoId = reqId.id;
 
-      console.log();
-      console.log("이거투두아이디이거투두아이디이거투두아이디이거투두아이디이거투두아이디");
-
       const { data, error } = await supabase.from("default_todos").delete().eq("id", todoId);
       if (error) {
         console.log(error);
       }
-      console.log("asd");
       return NextResponse.json({ message: "성공적으로 삭제되었습니다." });
     } catch (e) {
       return NextResponse.json({ error: "삭제에 실패했습니다" }, { status: 500 });

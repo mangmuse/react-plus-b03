@@ -2,6 +2,7 @@
 
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
 import useDateStore from "@/store/useDateStore";
+import { TDefaultTodo } from "@/types/scheduler.type";
 import { sortByCreatedAt } from "@/utils/formatSchedules";
 import { format } from "date-fns";
 import TodoBlock from "../TodoBlock";

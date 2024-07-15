@@ -1,34 +1,31 @@
 "use client";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
-import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
-import { useModal } from "@/services/modal/modal.context";
 import useTodoStore from "@/store/useTodoStore";
-import { TDefaultTodo } from "@/types/scheduler.type";
-import Image from "next/image";
+import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 import { useParams } from "next/navigation";
+import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
+import { useModal } from "@/services/modal/modal.context";
+import Image from "next/image";
 import React, { useState } from "react";
 import filledStar from "/public/icons/filledStar.svg";
 
 export type PropItem = {
-  item: Ttodo | TDefaultTodo;
+  item: TTodo | TDefaultTodo;
   classname?: string;
   isShared: boolean;
 };
-const isTtodo = (item: Ttodo | TDefaultTodo): item is Ttodo => {
-  return (item as Ttodo).calendarId !== undefined;
+const isTtodo = (item: TTodo | TDefaultTodo): item is TTodo => {
+  return (item as TTodo).calendarId !== undefined;
 };
 
 const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { calendarId } = useParams();
-  console.log(calendarId);
   const { setSelectedTodo, selectedTodo } = useTodoStore();
   const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
   const modal = useModal();
 
-  item && console.log(item, "asdasd");
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
     if (item) {
