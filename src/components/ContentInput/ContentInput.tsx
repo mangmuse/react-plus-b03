@@ -2,7 +2,7 @@
 
 import { useAddCommentMutation } from "@/hooks/useMutation/useAddCommentsMutation";
 import { useCommentQuery } from "@/hooks/useQuery/useCommentsQuery";
-import { useUserStore } from "@/store/useasdStore";
+import { useUserStore } from "@/store/useUserStore";
 import { Tables } from "@/types/supabase";
 import Image from "next/image";
 import React, { useState } from "react";

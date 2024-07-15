@@ -3,7 +3,7 @@
 import { useDeleteCommentMutation } from "@/hooks/useMutation/useDeleteCommentsMutation";
 import { useUpdateCommentMutation } from "@/hooks/useMutation/useUpdateCommentMutation";
 import { useModal } from "@/services/modal/modal.context";
-import { useUserStore } from "@/store/useasdStore";
+import { useUserStore } from "@/store/useUserStore";
 import { Tables } from "@/types/supabase";
 import { format } from "date-fns";
 import Image from "next/image";

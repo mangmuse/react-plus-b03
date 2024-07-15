@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import UserProfileImage from "../_components/UserProfileImage/UserProfileImage";
-import { useUserStore } from "@/store/useasdStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const Mypage = () => {
   const [nickname, setNickname] = useState("");

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/useasdStore"; // 필요한 상태 관리 훅
+import { useUserStore } from "@/store/useUserStore"; // 필요한 상태 관리 훅
 
 const LogoutButton = () => {
   const router = useRouter();

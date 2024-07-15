@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
-import { useUserStore } from "@/store/useasdStore";
+import { useUserStore } from "@/store/useUserStore";
 import LogoutButton from "@/app/auth/logout/page";
 
 const SideBar = () => {
