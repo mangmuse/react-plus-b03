@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/Button";
+import Loader from "@/components/Loader";
 import Page from "@/components/Page";
 import useCalendarsQuery from "@/hooks/useQuery/useCalendarsQuery";
 import { useModal } from "@/services/modal/modal.context";
@@ -16,7 +17,7 @@ const SharedCalendarPage = () => {
   };
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
   return (
     <Page title="공유 일정보기">
