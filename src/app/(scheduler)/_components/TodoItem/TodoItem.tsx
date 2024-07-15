@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useModal } from "@/services/modal/modal.context";
 import EditMenuBox from "@/components/Modal/EditMenuBox";
 import useTodoStore from "@/store/useTodoStore";
@@ -22,6 +22,8 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { updateTodo, updateDefaultTodo, updateIsImportant } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
+  const EditBoxRef = useRef<HTMLDivElement | null>(null);
+
   const modal = useModal();
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation();
@@ -98,7 +100,7 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
             </button>
             {open && (
               <div className="">
-                <EditMenuBox />
+                <EditMenuBox setOpen={setOpen} open={open} />
               </div>
             )}
           </div>
