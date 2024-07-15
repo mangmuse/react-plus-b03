@@ -4,7 +4,6 @@ import React from "react";
 interface openProps {
   setOpen: (open: boolean) => void;
   open: boolean;
-  EditBoxRef?: HTMLDivElement;
 }
 
 const EditMenuBox = ({ setOpen, open }: openProps) => {
