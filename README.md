@@ -9,6 +9,7 @@
 - typescript
 - next.js
 - date-fns
+- axios
 - react-calendar
 - supabase
 - zustand
@@ -24,6 +25,7 @@
 | [mangmuse](https://github.com/mangmuse)  | [minyoungKuk](https://github.com/minyoungKuk) | [ilovezerocokeya](https://github.com/ilovezerocokeya)| [show1486](https://github.com/show1486) | [fjw1010](https://github.com/fjw1010) | 
 
 ---
+
 ## 🛠️ 기술 스택
 ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
@@ -249,8 +251,22 @@
  ┣ 📜config.toml
  ┣ 📜page.tsx
  ┗ 📜seed.sql
+📦Top Level
+ ┣ 📜.env.local
+ ┣ 📜.eslintrc.json
+ ┣ 📜.gitignore
+ ┣ 📜.prettierrc
+ ┣ 📜next-env.d.ts
+ ┣ 📜next.config.mjs
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜postcss.config.mjs
+ ┣ 📜README.md
+ ┣ 📜tailwind.config.ts
+ ┗ 📜tsconfig.json
+
 ```
 
 ## 🔗 링크
-
-
+### [🌟 TEAM notion](https://www.notion.so/teamsparta/dd0e8ea642e6469bace23c11d21ab603)
+### [🌟 TEAM figma](https://www.figma.com/design/AGeWvdTmU6HaJLGRHHKkBG/%EB%9F%AD%ED%82%A4%EB%B9%84%ED%82%A4%EB%A7%88%EC%9D%B8%EB%93%9C%EC%A1%B0?node-id=0-1&t=2DYDqmhYwns3wJEM-0)   
