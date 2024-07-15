@@ -10,14 +10,17 @@ interface openProps {
 const EditMenuBox = ({ setOpen, open }: openProps) => {
   const modal = useModal();
 
-  const handledeleteModal = () => {
+  const handledeleteModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
+
     modal.open({
       type: "Edit",
       content: "삭제 하시겠습니까?",
     });
     setOpen(!open);
   };
-  const handleModifyModal = () => {
+  const handleModifyModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation();
     modal.open({
       type: "Modify",
       content: "",

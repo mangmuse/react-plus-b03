@@ -28,10 +28,11 @@ export const getUserData = async (email: string) => {
   const supabase = getSupabaseClient();
   return await supabase
   .from("users")
-  .select("id, email, nickname")
+  .select("id, email, nickname, image_url")
   .eq("email", email)
   .single();
 };
+
 
 
 

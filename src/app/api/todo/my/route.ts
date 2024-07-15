@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
 export async function GET(req: NextRequest) {
+  console.log("myTODO GET 요청");
   const supabase = createClient();
   const { searchParams } = new URL(req.url);
+  console.log(searchParams);
   const todoId = searchParams.get("todoId");
 
   if (!todoId) {
@@ -16,8 +18,6 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (!error) {
-    console.log("이위에 투두이위에 투두이위에 투두이위에 투두이위에 투두");
-    console.log(todo);
     return NextResponse.json({ todo });
   }
 
@@ -89,15 +89,16 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
+    console.log("myTODO DELETE 요청");
     const supabase = createClient();
 
     try {
-      const todoId = await req.json();
+      const reqId = await req.json();
+      const todoId = reqId.id;
 
       const { data, error } = await supabase.from("default_todos").delete().eq("id", todoId);
-
       if (error) {
-        throw error;
+        console.log(error);
       }
       return NextResponse.json({ message: "성공적으로 삭제되었습니다." });
     } catch (e) {

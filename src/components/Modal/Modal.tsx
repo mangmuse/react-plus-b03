@@ -1,5 +1,4 @@
 "use client";
-
 import { ModalProps } from "@/types/modal.type";
 import Image from "next/image";
 import AlertModal from "./AlertModal";
@@ -9,24 +8,22 @@ import DeleteModal from "./DeleteModal";
 import ModifyModal from "./ModifyModal";
 import TodoInput from "./TodoInput";
 import MdSharedCalendarForm from "./MdSharedCalendarForm";
-
+import MdShareCalendars from "./MdShareCalendars";
 const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
   const handleCloseModal = () => {
     if (onClose) onClose();
   };
-
   const renderModal = () => {
     switch (type) {
       case "todo":
         return <TodoInput />;
       case "confirm":
         return (
-          <ConfirmModal
-            type={type}
-            content={content}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-          />
+          <ConfirmModal type={type} content={content} onConfirm={onConfirm} onCancel={onCancel} />
+        );
+      case "share":
+        return (
+          <MdShareCalendars type={type} content={content} onClose={onClose} onConfirm={onConfirm} />
         );
       case "form":
         return <MdSharedCalendarForm />;
@@ -40,18 +37,15 @@ const Modal = ({ type, content, onConfirm, onCancel, onClose }: ModalProps) => {
         return null;
     }
   };
-
   return (
     <BackDrop>
       <div className="relative bg-white p-10 rounded min-w-[340px]">
         <button onClick={handleCloseModal} className="absolute top-2 right-2">
           <Image src="/ic-close.png" alt="close icon" width={50} height={50} />
         </button>
-
         <div className="px-6 py-2 text-lg">{renderModal()}</div>
       </div>
     </BackDrop>
   );
 };
-
 export default Modal;

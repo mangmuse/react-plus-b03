@@ -6,7 +6,7 @@ import useTodoStore from "@/store/useTodoStore";
 import useScheduleMutation from "@/hooks/useMutation/useScheduleMutation";
 
 const DeleteModal = ({ type, content, onClose }: ModalProps) => {
-  const { deleteTodo, deleteDefaultTodo } = useScheduleMutation();
+  const { removeTodo, removeDefaultTodo } = useScheduleMutation();
   const selectedTodo = useTodoStore((state) => state.selectedTodo);
   const modal = useModal();
 
@@ -15,8 +15,8 @@ const DeleteModal = ({ type, content, onClose }: ModalProps) => {
 
     if (!!selectedTodo) {
       selectedTodo.calendarId
-        ? await deleteTodo(selectedTodo.id)
-        : await deleteDefaultTodo(selectedTodo.id);
+        ? await removeTodo(selectedTodo)
+        : await removeDefaultTodo(selectedTodo.id);
     } else {
     }
   };

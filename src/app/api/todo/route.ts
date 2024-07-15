@@ -1,36 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import useTodoQuery from "@/hooks/useQuery/useMyTodoQuery";
-
-export async function GET(req: NextRequest) {
-  const supabase = createClient();
-  const { searchParams } = new URL(req.url);
-  const todoId = searchParams.get("todoId");
-
-  if (!todoId) {
-    return NextResponse.json({ error: "todoId가 없습니다" });
-  }
-  const { data: todo, error } = await supabase.from("todos").select("*").eq("id", todoId).single();
-
-  if (error) {
-    return NextResponse.json({ error: "todo를 가져오지 못했습니다" });
-  }
-}
 
 export async function POST(req: NextRequest) {
-  // 캘린더id, todo내용 받아오기
   const supabase = createClient();
 
-  console.log("asdasd");
   const reqNewTodo = await req.json();
-  console.log("newTodonewTodonewTodonewTodonewTodonewTodonewTodonewTodo");
 
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
   if (user && !userError) {
-    console.log(user);
     const { id: userId } = user;
 
     const newNewTodo = {
@@ -55,9 +35,6 @@ export async function PATCH(req: NextRequest) {
     const updatedTodo = await req.json();
 
     if (todoId && updatedTodo) {
-      console.log(
-        "패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행패치실행",
-      );
       const { data, error } = await supabase
         .from("todos")
         .update(updatedTodo)
@@ -66,13 +43,9 @@ export async function PATCH(req: NextRequest) {
         .single();
 
       if (error) {
-        console.log(error);
         return NextResponse.json({ error: "업데이트 실패" });
       }
-      console.log(data);
-      console.log(
-        "패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼패치왜안돼",
-      );
+
       return NextResponse.json({ data });
     }
     return NextResponse.json({ error: ";ㅅ;" }, { status: 500 });
@@ -82,17 +55,14 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
     const supabase = createClient();
-
     try {
-      const todoId = await req.json();
-      console.log(todoId);
-      console.log(
-        "todoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoIDtodoID",
-      );
+      const todo = await req.json();
+      const todoId = todo.id;
+
       const { data, error } = await supabase.from("todos").delete().eq("id", todoId);
 
       if (error) {
-        throw error;
+        console.log(error);
       }
       return NextResponse.json({ message: "성공적으저로 삭제되었습니다." });
     } catch (e) {

@@ -1,8 +1,8 @@
 "use client";
 
-import { TDefaultTodo } from "@/hooks/useQuery/useMyScheduleQuery";
-import { Ttodo } from "@/hooks/useQuery/useTodoQuery";
 import useDateStore from "@/store/useDateStore";
+import { TDefaultTodo, TTodo } from "@/types/scheduler.type";
+
 import {
   addDays,
   addMonths,
@@ -19,7 +19,7 @@ import { useState } from "react";
 
 type CalendarProps = {
   initialDate: Date;
-  todos?: Ttodo[] | TDefaultTodo[];
+  todos?: TTodo[] | TDefaultTodo[];
 };
 
 const Calendar = ({ initialDate, todos }: CalendarProps) => {
@@ -29,7 +29,7 @@ const Calendar = ({ initialDate, todos }: CalendarProps) => {
   const allDatesSet = new Set<string>();
   if (todos) {
     todos.forEach((todo) => {
-      todo.dateArray.forEach((date) => allDatesSet.add(date));
+      todo.dateArray?.forEach((date) => allDatesSet.add(date));
     });
   }
 
@@ -108,7 +108,6 @@ const Calendar = ({ initialDate, todos }: CalendarProps) => {
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
-    console.log(format(date, "yyyy-MM-dd"));
   };
 
   return (

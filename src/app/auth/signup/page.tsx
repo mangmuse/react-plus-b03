@@ -97,78 +97,66 @@ export default function SignUpPage() {
 	};
 
 	return (
-		<div className="flex items-center justify-center min-h-screen">
-			<form
-				onSubmit={onSubmit}
-				className="flex flex-col gap-y-2 border-2 w-96 items-center p-4 bg-white rounded shadow-md"
-			>
-				<div className="w-full flex items-center justify-between mb-4">
-					<label htmlFor="email" className="mr-2">
-						이메일
-					</label>
-					<input
-						type="email"
-						id="email"
-						value={email}
-						onChange={onChangeEmail}
-						placeholder="이메일을 입력하세요."
-						className="border-2 border-gray-300 rounded-md p-1 w-full"
-					/>
-				</div>
-				<div className="w-full flex items-center justify-between mb-4">
-					<label htmlFor="nickname" className="mr-2">
-						닉네임
-					</label>
-					<input
-						type="text"
-						id="nickname"
-						value={nickname}
-						onChange={onChangeNickname}
-						placeholder="닉네임을 입력하세요."
-						className="border-2 border-gray-300 rounded-md p-1 w-full"
-					/>
-				</div>
-				<div className="w-full flex items-center justify-between mb-4">
-					<label htmlFor="password" className="mr-2">
-						비밀번호
-					</label>
-					<input
-						type="password"
-						id="password"
-						value={password}
-						onChange={onChangePassword}
-						placeholder="비밀번호를 입력하세요."
-						className="border-2 border-gray-300 rounded-md p-1 w-full"
-					/>
-				</div>
-				{error.password && <p className="text-red-500">{error.password}</p>}
-				<div className="w-full flex items-center justify-between mb-4">
-					<label htmlFor="passwordConfirm" className="mr-2">
-						비밀번호 확인
-					</label>
-					<input
-						type="password"
-						id="passwordConfirm"
-						value={passwordConfirm}
-						onChange={onChangePasswordConfirm}
-						placeholder="비밀번호를 입력하세요."
-						className="border-2 border-gray-300 rounded-md p-1 w-full"
-					/>
-				</div>
-				{error.passwordConfirm && (
-					<p className="text-red-500">{error.passwordConfirm}</p>
-				)}
-				<div className="w-full p-4 flex flex-col gap-y-2">
-					<button className="w-full bg-blue-500 text-white p-2 rounded-md">
-						회원가입
-					</button>
-					<Link href="/auth/login">
-						<button type="button" className="w-full bg-black text-white p-2 rounded-md">
-							로그인하러 가기
-						</button>
-					</Link>
-				</div>
-			</form>
+		<div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300 px-4">
+		  <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">회원가입</h1>
+		  <form onSubmit={onSubmit} className="p-8 rounded-lg shadow-lg w-full max-w-md space-y-6">
+			<div className="flex flex-col">
+			  <label htmlFor="email" className="mb-2 text-gray-700 font-semibold">이메일</label>
+			  <input
+				type="email"
+				id="email"
+				value={email}
+				onChange={onChangeEmail}
+				placeholder="이메일을 입력하세요."
+				className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+			  />
+			</div>
+			<div className="flex flex-col">
+			  <label htmlFor="nickname" className="mb-2 text-gray-700 font-semibold">닉네임</label>
+			  <input
+				type="text"
+				id="nickname"
+				value={nickname}
+				onChange={onChangeNickname}
+				placeholder="닉네임을 입력하세요."
+				className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+			  />
+			</div>
+			<div className="flex flex-col">
+			  <label htmlFor="password" className="mb-2 text-gray-700 font-semibold">비밀번호</label>
+			  <input
+				type="password"
+				id="password"
+				value={password}
+				onChange={onChangePassword}
+				placeholder="비밀번호를 입력하세요."
+				className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+			  />
+			</div>
+			{error.password && <p className="text-red-500">{error.password}</p>}
+			<div className="flex flex-col">
+			  <label htmlFor="passwordConfirm" className="mb-2 text-gray-700 font-semibold">비밀번호 확인</label>
+			  <input
+				type="password"
+				id="passwordConfirm"
+				value={passwordConfirm}
+				onChange={onChangePasswordConfirm}
+				placeholder="비밀번호를 다시 입력하세요."
+				className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+			  />
+			</div>
+			{error.passwordConfirm && <p className="text-red-500">{error.passwordConfirm}</p>}
+			<button type="submit" className="w-full bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition duration-300">
+				가입하기
+			</button>
+		  <div className="mt-6 text-center">
+		  계정이 있으신가요?
+        <Link href="/auth/login" className="underline text-blue-500 hover:text-blue-700 ml-2">
+           로그인하러 가기
+        </Link>
+		  </div>
+		  </form>
 		</div>
-	);
-}
+	  );
+	};
+	
