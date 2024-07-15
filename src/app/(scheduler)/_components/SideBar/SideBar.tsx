@@ -2,31 +2,40 @@
 import Image from "next/image";
 import Link from "next/link";
 import useMyScheduleQuery from "@/hooks/useQuery/useMyScheduleQuery";
+import { useUserStore } from "@/store/useasdStore";
+import LogoutButton from "@/app/auth/logout/page";
 
 const SideBar = () => {
+  const { nickname, image_url } = useUserStore((state) => ({
+    nickname: state.nickname,
+    image_url: state.image_url,
+  }));
   const { todos, isPending, error } = useMyScheduleQuery();
 
   return (
     <aside className="fixed w-64 min-h-screen bg-white h-screen">
       <div className=" bg-white h-full p-5 drop-shadow-2xl top-0 left-0">
         <div className="flex items-center">
-          <p className="bg-white border rounded-3xl text-xs w-12 h-12">
-            <Image
-              src="/icons/sidebar/ic-user-image.png"
-              alt=""
-              width={15}
-              height={15}
-              className="mt-4 ml-3.5"
-            />
-          </p>
-          <div className="ml-4">
+          <div className="flex items-center">
+            {image_url && (
+              <Image
+                src={image_url}
+                alt="User Image"
+                width={50}
+                height={50}
+                className="rounded-full"
+              />
+            )}
+          </div>
+          <div className="ml-5">
             <ul className="flex flex-col">
               <li className="flex items-center gap-1">
                 <Image src="/icons/sidebar/ic-user-page.png" alt="" width={17} height={10} />
-                <Link href="">마이페이지</Link>
+                <Link href="/mypage">Mypage</Link>
               </li>
-              <li className="font-semibold text-center">유저 정보</li>
             </ul>
+
+            <p className="font-semibold text-lg ml-5">{nickname}</p>
           </div>
         </div>
         <div className="mt-6 ml-7">
@@ -90,10 +99,13 @@ const SideBar = () => {
             </ul>
           </div>
           <div className="flex gap-3 absolute bottom-10 right-16">
-            <button className="bg-slate-900 border rounded-3xl p-2 px-5 text-white flex gap-3 items-center">
-              로그아웃
-              <Image src="/icons/sidebar/ic-logout.png" alt="" width={17} height={17} />
-            </button>
+            <LogoutButton />
+            <Image
+              src="/icons/sidebar/ic-logout.png"
+              alt="로그아웃 아이콘"
+              width={17}
+              height={17}
+            />
           </div>
         </div>
       </div>
