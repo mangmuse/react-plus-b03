@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const calendarId = searchParams.get("calendarId");
   const supabase = createClient();
-  console.log(calendarId);
 
   if (calendarId) {
     const { data: todos, error: todoError } = await supabase
@@ -17,8 +16,6 @@ export async function GET(req: NextRequest) {
     if (todoError) return NextResponse.json("fetch 실패");
 
     if (todos) {
-      console.log(todos);
-      console.log("asd");
 
       const resTodos = await Promise.all(
         todos.map(async (todo) => {

@@ -3,6 +3,8 @@ import { PropsWithChildren } from "react";
 import OpenTodoModal from "./_components/OpenTodoModal";
 import SideBar from "./_components/SideBar";
 
+
+
 const SchedulerLayout = ({ children }: PropsWithChildren) => {
   return (
     <ModalProvider>
@@ -17,6 +19,7 @@ const SchedulerLayout = ({ children }: PropsWithChildren) => {
         </div>
       </div>
     </ModalProvider>
+    
   );
 };
 

@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
 export async function GET(req: NextRequest) {
-  console.log("myTODO GET 요청");
   const supabase = createClient();
   const { searchParams } = new URL(req.url);
-  console.log(searchParams);
   const todoId = searchParams.get("todoId");
 
   if (!todoId) {
@@ -40,7 +38,6 @@ export async function POST(req: NextRequest) {
       .eq("userId", userId);
 
     if (myCalendarError) {
-      console.log(myCalendarError);
       return NextResponse.json("myCalendar fetch 실패");
     }
     if (myCalendarIds) {
@@ -89,7 +86,6 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   if (req.method === "DELETE") {
-    console.log("myTODO DELETE 요청");
     const supabase = createClient();
 
     try {

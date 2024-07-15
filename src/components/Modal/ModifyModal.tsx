@@ -33,7 +33,6 @@ const ModifyModal = ({ type, content, onClose }: ModalProps) => {
       ...prevState,
       [name]: value,
     }));
-    console.log(formState);
   };
 
   const handleUpdateTodo = async () => {

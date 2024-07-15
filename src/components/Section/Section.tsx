@@ -33,7 +33,6 @@ const Section = ({ calendarId }: SectionProps) => {
   useEffect(() => {
     setSelectedDate(new Date());
   }, [setSelectedDate]);
-  console.log(todos);
   if (isPending) return <div>loading</div>;
   return (
     <>

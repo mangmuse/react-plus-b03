@@ -30,7 +30,6 @@ const useTodoQuery = (todoId: string) => {
         throw new Error("todo를 가져오지 못했습니다.");
       }
       const todo = await res.json();
-      console.log(todo);
       return todo.todo;
     },
   });

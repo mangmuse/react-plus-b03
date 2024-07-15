@@ -40,7 +40,6 @@ const TodoInput = () => {
       ...prevState,
       [name]: value,
     }));
-    console.log(formState);
   };
 
   const handleAddTodo = async () => {
