@@ -24,6 +24,7 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
   const { updateTodo, updateDefaultTodo } = useScheduleMutation();
 
   const [open, setOpen] = useState(false);
+
   const modal = useModal();
 
   const handleOpenModal: React.MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -103,7 +104,7 @@ const TodoItem = ({ item, classname, isShared }: PropItem) => {
             </button>
             {open && (
               <div className="">
-                <EditMenuBox />
+                <EditMenuBox setOpen={setOpen} open={open} />
               </div>
             )}
           </div>
